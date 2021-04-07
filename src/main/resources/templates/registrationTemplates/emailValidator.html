@@ -1,0 +1,23 @@
+<!Doctype html>
+<html class="h-100 " xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block layout:insert="~{fragments/bootstrap.html}"/>
+
+
+
+<body class="h-100" style="background: lightgray">
+<div class="d-flex justify-content-center h-100  align-items-center">
+    <div class="col-sm-8 col-md-6 col-lg-3 col-lx-2 pb-2 pt-3" style="border-radius: 5px; border: 1px solid gray; box-shadow: 5px 5px 5px darkgray; background: white" >
+
+        <form th:action="@{/register/checkEmail(URL=${URL})}" method="post">
+            <div th:if="${isExistUser == false}" class="alert alert-danger alert-dismissible mb-2">
+                <strong>Error!</strong>Invalid activation code
+            </div>
+            <input type="text" name="code" class="form-control col-sm-12 mb-2" placeholder="Enter activation code"/>
+
+            <button type="submit" class="btn btn-dark col-sm-12 mb-2">Register</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

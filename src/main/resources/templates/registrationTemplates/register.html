@@ -1,0 +1,27 @@
+<!Doctype html>
+<html class="h-100 " xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block layout:insert="~{fragments/bootstrap.html}"/>
+<body class="h-100" style="background: lightgray">
+<div class="d-flex justify-content-center h-100  align-items-center">
+    <div class="col-sm-8 col-md-6 col-lg-3 col-lx-2 pb-2 pt-3" style="border-radius: 5px; border: 1px solid gray; box-shadow: 5px 5px 5px darkgray; background: white" >
+
+        <form th:action="@{/register/}" method="post"   >
+            <div th:if="${isValidUsername == false}" class="alert alert-danger alert-dismissible mb-2">
+                <strong>Error!</strong> Invalid or occupied username
+            </div>
+            <div th:if="${isValidPassword == false}" class="alert alert-danger alert-dismissible mb-2">
+                <strong>Error!</strong> Invalid password
+            </div>
+
+            <input type="text" name="username_reg" class="form-control col-sm-12 mb-2" placeholder="Login"/>
+            <input type="password" name="password_reg" class="form-control col-sm-12 mb-2" placeholder="Password"/>
+            <input type="password" name="password_reg2" class="form-control col-sm-12 mb-2" placeholder="Repeat password"/>
+            <input type="email" name="Email_reg" class="form-control col-sm-12 mb-2" placeholder="Email"/>
+            <button type="submit" class="btn btn-dark col-sm-12 mb-2">Next</button>
+        </form>
+        </form>
+    </div>
+</div>
+</body>
+</html>
