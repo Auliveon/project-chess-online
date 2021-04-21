@@ -10,6 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 public class MainGameController {
     @GetMapping("/")
     public String main(Model model, HttpServletRequest request) {
-        return "index";
+        return "game/index";
     }
 }

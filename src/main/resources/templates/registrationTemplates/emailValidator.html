@@ -9,7 +9,7 @@
 <div class="d-flex justify-content-center h-100  align-items-center">
     <div class="col-sm-8 col-md-6 col-lg-3 col-lx-2 pb-2 pt-3" style="border-radius: 5px; border: 1px solid gray; box-shadow: 5px 5px 5px darkgray; background: white" >
 
-        <form th:action="@{/register/checkEmail(URL=${URL})}" method="post">
+        <form th:action="@{/register/emailValidator(URL=${URL})}" method="post">
             <div th:if="${isExistUser == false}" class="alert alert-danger alert-dismissible mb-2">
                 <strong>Error!</strong>Invalid activation code
             </div>

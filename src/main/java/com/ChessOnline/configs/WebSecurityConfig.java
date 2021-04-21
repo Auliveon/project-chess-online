@@ -21,9 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             };
     private static final String[] PUBLIC_PAGES =
             {
-                    "/register",
                     "/register/*",
-                    "/checkEmail",
+                    "/ajax/*"
             };
 
     protected void  configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -38,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http
                 .authorizeRequests()
                 .antMatchers(PUBLIC_PAGES).permitAll()
@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
+
     @Bean()
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImp();
