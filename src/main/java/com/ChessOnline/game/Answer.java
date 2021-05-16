@@ -1,0 +1,64 @@
+package com.ChessOnline.game;
+
+import com.ChessOnline.game.gameFieldElements.GameField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Answer {
+    private String type;
+    private String whoTurn;
+    private String message;
+    private GameField gameField;
+    private String side;
+
+    public Answer(@JsonProperty(value = "type") String type,
+                  @JsonProperty(value = "whoTurn") String whoTurn,
+                  @JsonProperty(value = "mess") String message,
+                  @JsonProperty(value = "gameField") GameField gameField,
+                  @JsonProperty(value = "side") String side) {
+        this.type = type;
+        this.whoTurn = whoTurn;
+        this.message = message;
+        this.gameField = gameField;
+        this.side = side;
+    }
+
+    public String getSide() {
+        return side;
+    }
+
+    public void setSide(String side) {
+        this.side = side;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getWhoTurn() {
+        return whoTurn;
+    }
+
+    public void setWhoTurn(String whoTurn) {
+        this.whoTurn = whoTurn;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public GameField getGameField() {
+        return gameField;
+    }
+
+    public void setGameField(GameField gameField) {
+        this.gameField = gameField;
+    }
+}

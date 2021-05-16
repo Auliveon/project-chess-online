@@ -4,8 +4,8 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://${MYSQL_HOST:localhost}:8084/chessonline?useSSL=false&amp;serverTimezone=UTC</property>
-        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mariadb://${MYSQL_HOST:localhost}:55555/chessonline?useSSL=false</property>
+        <property name="connection.driver_class">org.mariadb.jdbc.Driver</property>
         <property name="connection.username">root</property>
         <property name="connection.password">root</property>
         <property name="current_session_context_class">thread</property>

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Sender {
 
@@ -17,45 +18,25 @@ public class Sender {
     }
 
     public void handler(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String req = request.getReader().readLine();
+        String stringRequest = request.getReader().readLine();
 
-        if (req.equals("\"ready\"")) {
-            if (!UniqueSessions.checkModPlayerInSessionList(new ModPlayer(request)) && !UniqueUserQueue.checkModPlayerInUserQueue(new ModPlayer(request))) {
-                UniqueUserQueue.uniqueAdd(new ModPlayer(request));
-                response.getWriter().write("added in queue");
-            }
-
+        if(UniqueSessions.checkModPlayerInSessionList(new ModPlayer(request))) {
+            Objects.requireNonNull(UniqueSessions.getSessionByModPlayer
+                    (new ModPlayer(request))).requestHandler(stringRequest, request.getRemoteUser(), response);
         }
 
-        if (req.equals("\"checkMeOnQueue\"")) {
-            if ((UniqueSessions.checkModPlayerInSessionList(new ModPlayer(request)) || UniqueUserQueue.checkModPlayerInUserQueue(new ModPlayer(request)))) {
-                response.getWriter().write("yes");
-            }
-
-
-        }
-        if (req.equals("\"checkGame\"")) {
-            if (UniqueSessions.checkModPlayerInSessionList(new ModPlayer(request)) && !UniqueUserQueue.checkModPlayerInUserQueue(new ModPlayer(request))) {
-               response.getWriter().write("Your enemy: " + UniqueSessions.getSessionByModPlayer(new ModPlayer(request)).getAnotherModPlayer(new ModPlayer(request)));
-            } else {
-                response.getWriter().write("no");
-            }
-
+        else if(UniqueUserQueue.checkModPlayerInUserQueue(new ModPlayer(request))) {
+            UniqueUserQueue.handler(stringRequest, request.getRemoteUser(), response);
         }
 
-        if(req.startsWith("\"session")) {
-            if(UniqueSessions.checkModPlayerInSessionList(new ModPlayer(request))) {
-                ModPlayer player = new ModPlayer(request);
-                UniqueSessions.getSessionByModPlayer(player).requestHandler(req, request.getRemoteUser(), response);
-
-
-            }
+        else if(stringRequest.equals("\"addMeOnQueue\"")) {
+            UniqueUserQueue.uniqueAdd(new ModPlayer(request));
+            response.getWriter().write("added");
+        } else {
+            response.getWriter().write("no");
         }
 
-        if(req.equals("\"getGameField\"")) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            response.getWriter().write(objectMapper.writeValueAsString(new GameField()));
-        }
+
 
     }
 }

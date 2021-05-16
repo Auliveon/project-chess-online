@@ -10,6 +10,7 @@ public class SQLWriter {
 
     public static void writeNewUser(Player user) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Player.class).buildSessionFactory();
+
         Session session = factory.getCurrentSession();
         session.beginTransaction();
         session.save(user);

@@ -1,15 +1,10 @@
 package com.ChessOnline.game.gameFieldElements;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public interface Figure {
+    String getId();
+    int[] getStepValue();
+    int getVarCount();
 
-public class Figure {
-    private String id;
 
-    public Figure(@JsonProperty(value = "id")String id) {
-        this.id = id;
-    }
 
-    public String getId() {
-        return id;
-    }
 }

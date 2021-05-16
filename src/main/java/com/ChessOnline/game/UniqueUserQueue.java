@@ -1,5 +1,10 @@
 package com.ChessOnline.game;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayDeque;
 
 public class UniqueUserQueue {
@@ -19,6 +24,12 @@ public class UniqueUserQueue {
             return false;
         }
         else return true;
+    }
+    static void handler(String request, String username, HttpServletResponse response) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.getWriter().write(objectMapper.writeValueAsString(new Answer("a", null, "waiting",
+                null, null)));
+
     }
 
 }
