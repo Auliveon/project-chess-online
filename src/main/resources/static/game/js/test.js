@@ -50,6 +50,13 @@ let a = setInterval(() => {
                 addFiguresOnField();
             }
 
+            if (answer.type === "Lose") {
+                alert("You lose");
+            }
+            if (answer.type === "Win") {
+                alert("You win");
+            }
+
         });
     // clearInterval(a);
 }, 100);

@@ -73,11 +73,20 @@ public class Session {
             String answer = gameField.makeTurn(stringRequest);
             if(answer.equals("Yes")) {
                 if (name.equals(p1.getUserName())) {
+                    if(gameField.checkMat().equals("white")) {
+                        p2Requests.add(new Answer("Lose", null, null, null, null));
+                        p1Requests.add(new Answer("Win", null, null, null, null));
+                    }
                     p2Requests.add(new Answer(null, "You", "updateField", null, null));
                     p1Requests.add(new Answer(null, "", "updateField", null, null));
+
                 }
 
                 if (name.equals(p2.getUserName())) {
+                    if(gameField.checkMat().equals("black")) {
+                        p1Requests.add(new Answer("Lose", null, null, null, null));
+                        p2Requests.add(new Answer("Win", null, null, null, null));
+                    }
                     p1Requests.add(new Answer(null, "You", "updateField", null, null));
                     p2Requests.add(new Answer(null, "", "updateField", null, null));
                 }
@@ -93,14 +102,14 @@ public class Session {
                     p2Requests.add(new Answer(null, "You", "updateField", null, null));
                 }
             }
-
         }
+
         if (stringRequest.startsWith("\"getAvailableSteps")) {
             //System.out.println(stringRequest);
             String figure = convertRequest(stringRequest).split("-")[1];
             //System.out.println(figure);
             StringBuilder sb = new StringBuilder();
-            for(String s  : gameField.getSteps(figure)) {
+            for(String s  : gameField.getAvailableSteps(figure)) {
                 sb.append(s + "-");
             }
             response.getWriter().write(sb.toString());

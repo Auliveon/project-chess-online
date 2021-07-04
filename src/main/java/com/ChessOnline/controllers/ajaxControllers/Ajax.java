@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.*;
 
 @RestController
-public class ajax {
+public class Ajax {
     Sender sender = new Sender();
 
     @PostMapping("/ajax")

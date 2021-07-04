@@ -4,7 +4,15 @@ public class BlackPawn implements Figure {
     private String id;
     private int[] stepValue = {-1};
     private int varCount = 2;
+    private int stepsCount = 0;
 
+    public int getStepsCount() {
+        return stepsCount;
+    }
+
+    public void setStepsCount(int stepsCount) {
+        this.stepsCount = stepsCount;
+    }
     public int getVarCount() {
         return varCount;
     }

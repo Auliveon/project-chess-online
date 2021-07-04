@@ -4,6 +4,21 @@ public class Bishop implements Figure {
     private String id;
     private int[] stepValue = {11, -11, 9, -9};
     private int varCount = 99;
+    private int stepsCount = 0;
+
+    public int getStepsCount() {
+        return stepsCount;
+    }
+
+    public void setStepsCount(int stepsCount) {
+        this.stepsCount = stepsCount;
+    }
+
+    public void setVarCount(int varCount) {
+        this.varCount = varCount;
+    }
+
+
 
     public int getVarCount() {
         return varCount;
