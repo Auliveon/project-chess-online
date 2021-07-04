@@ -1,9 +1,7 @@
 package com.ChessOnline.game;
 
-import com.ChessOnline.game.gameFieldElements.GameField;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
@@ -15,7 +13,7 @@ public class Session {
     private Step[] stepsHistory;
     private ModPlayer p1;
     private ModPlayer p2;
-    private GameField gameField = new GameField();
+    private GameEngine gameEngine = new GameEngine();
     private ArrayDeque<Answer> p1Requests = new ArrayDeque<>();
     private ArrayDeque<Answer> p2Requests = new ArrayDeque<>();
 
@@ -65,15 +63,15 @@ public class Session {
 
         if (stringRequest.equals("\"getGameField\"")) {
             ObjectMapper objectMapper = new ObjectMapper();
-            response.getWriter().write(objectMapper.writeValueAsString(gameField));
+            response.getWriter().write(objectMapper.writeValueAsString(gameEngine));
 
         }
 
         if (stringRequest.startsWith("\"step")) {
-            String answer = gameField.makeTurn(stringRequest);
+            String answer = gameEngine.makeTurn(stringRequest);
             if(answer.equals("Yes")) {
                 if (name.equals(p1.getUserName())) {
-                    if(gameField.checkMat().equals("white")) {
+                    if(gameEngine.checkMat().equals("white")) {
                         p2Requests.add(new Answer("Lose", null, null, null, null));
                         p1Requests.add(new Answer("Win", null, null, null, null));
                     }
@@ -83,7 +81,7 @@ public class Session {
                 }
 
                 if (name.equals(p2.getUserName())) {
-                    if(gameField.checkMat().equals("black")) {
+                    if(gameEngine.checkMat().equals("black")) {
                         p1Requests.add(new Answer("Lose", null, null, null, null));
                         p2Requests.add(new Answer("Win", null, null, null, null));
                     }
@@ -109,7 +107,7 @@ public class Session {
             String figure = convertRequest(stringRequest).split("-")[1];
             //System.out.println(figure);
             StringBuilder sb = new StringBuilder();
-            for(String s  : gameField.getAvailableSteps(figure)) {
+            for(String s  : gameEngine.getAvailableSteps(figure)) {
                 sb.append(s + "-");
             }
             response.getWriter().write(sb.toString());

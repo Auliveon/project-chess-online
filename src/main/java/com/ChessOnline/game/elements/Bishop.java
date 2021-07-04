@@ -1,9 +1,9 @@
-package com.ChessOnline.game.gameFieldElements;
+package com.ChessOnline.game.elements;
 
-public class Knight implements Figure {
+public class Bishop implements Figure {
     private String id;
-    private int[] stepValue = {21,19,12,8,-8,-19,-21,-12};
-    private int varCount = 1;
+    private int[] stepValue = {11, -11, 9, -9};
+    private int varCount = 99;
     private int stepsCount = 0;
 
     public int getStepsCount() {
@@ -13,11 +13,19 @@ public class Knight implements Figure {
     public void setStepsCount(int stepsCount) {
         this.stepsCount = stepsCount;
     }
+
+    public void setVarCount(int varCount) {
+        this.varCount = varCount;
+    }
+
+
+
     public int getVarCount() {
         return varCount;
     }
 
-    public Knight(String id) {
+
+    public Bishop(String id) {
         this.id = id;
     }
 

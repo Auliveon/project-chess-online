@@ -1,24 +1,23 @@
 package com.ChessOnline.game;
 
-import com.ChessOnline.game.gameFieldElements.GameField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Answer {
     private String type;
     private String whoTurn;
     private String message;
-    private GameField gameField;
+    private GameEngine gameEngine;
     private String side;
 
     public Answer(@JsonProperty(value = "type") String type,
                   @JsonProperty(value = "whoTurn") String whoTurn,
                   @JsonProperty(value = "mess") String message,
-                  @JsonProperty(value = "gameField") GameField gameField,
+                  @JsonProperty(value = "gameField") GameEngine gameEngine,
                   @JsonProperty(value = "side") String side) {
         this.type = type;
         this.whoTurn = whoTurn;
         this.message = message;
-        this.gameField = gameField;
+        this.gameEngine = gameEngine;
         this.side = side;
     }
 
@@ -54,11 +53,11 @@ public class Answer {
         this.message = message;
     }
 
-    public GameField getGameField() {
-        return gameField;
+    public GameEngine getGameEngine() {
+        return gameEngine;
     }
 
-    public void setGameField(GameField gameField) {
-        this.gameField = gameField;
+    public void setGameEngine(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
     }
 }

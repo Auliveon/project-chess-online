@@ -1,11 +1,7 @@
 package com.ChessOnline.game;
 
-import com.ChessOnline.game.gameFieldElements.GameField;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.ChessOnline.game.gameFieldElements;
+package com.ChessOnline.game.elements;
 
 public interface Figure {
     String getId();

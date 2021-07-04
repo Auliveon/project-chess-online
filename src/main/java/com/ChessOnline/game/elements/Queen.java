@@ -1,10 +1,11 @@
-package com.ChessOnline.game.gameFieldElements;
+package com.ChessOnline.game.elements;
 
-public class WhitePawn implements Figure {
+public class Queen implements Figure {
     private String id;
-    private int[] stepValue = {1};
-    private int varCount = 2;
+    private int[] stepValue = {10,-10,1,-1,11,-11,9,-9};
+    private int varCount = 99;
     private int stepsCount = 0;
+
     public int getStepsCount() {
         return stepsCount;
     }
@@ -12,17 +13,11 @@ public class WhitePawn implements Figure {
     public void setStepsCount(int stepsCount) {
         this.stepsCount = stepsCount;
     }
-
-
     public int getVarCount() {
         return varCount;
     }
 
-    public void setVarCount(int varCount) {
-        this.varCount = varCount;
-    }
-
-    public WhitePawn(String id) {
+    public Queen(String id) {
         this.id = id;
     }
 

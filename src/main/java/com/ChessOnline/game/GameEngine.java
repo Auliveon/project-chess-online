@@ -1,12 +1,13 @@
-package com.ChessOnline.game.gameFieldElements;
+package com.ChessOnline.game;
 
-import javax.servlet.http.HttpServletResponse;
+import com.ChessOnline.game.elements.*;
+
 import java.util.*;
 
-public class GameField {
+public class GameEngine {
     private Map<String, Figure> gameField = new HashMap<>();
 
-    public GameField() {
+    public GameEngine() {
 
         this.gameField.put("a1", new Rook("whiteRook1"));
         this.gameField.put("a2", new WhitePawn("whitePawn1"));
@@ -92,15 +93,15 @@ public class GameField {
     public String checkMat() {
         Set<String> whiteSteps = new HashSet<>();
         Set<String> blackSteps = new HashSet<>();
-        for(Map.Entry<String, Figure> stringFigureEntry:gameField.entrySet()) {
-            if(stringFigureEntry.getValue() != null && stringFigureEntry.getValue().getId().startsWith("white")) {
+        for (Map.Entry<String, Figure> stringFigureEntry : gameField.entrySet()) {
+            if (stringFigureEntry.getValue() != null && stringFigureEntry.getValue().getId().startsWith("white")) {
                 whiteSteps.addAll(getAvailableSteps(stringFigureEntry.getValue().getId()));
-            } else if(stringFigureEntry.getValue() != null && stringFigureEntry.getValue().getId().startsWith("black")) {
+            } else if (stringFigureEntry.getValue() != null && stringFigureEntry.getValue().getId().startsWith("black")) {
                 blackSteps.addAll(getAvailableSteps(stringFigureEntry.getValue().getId()));
             }
         }
-        if(whiteSteps.size() == 0 && blackSteps.size() > 0) return "black";
-        else if(blackSteps.size() == 0 && whiteSteps.size() > 0) return "white";
+        if (whiteSteps.size() == 0 && blackSteps.size() > 0) return "black";
+        else if (blackSteps.size() == 0 && whiteSteps.size() > 0) return "white";
         return "none";
     }
 
@@ -117,46 +118,52 @@ public class GameField {
                 figure = entry.getValue();
             }
         }
+        System.out.println("asdasdasdasdasdas" + figure.getStepsCount());
 
         ArrayList<String> availableSteps = getAvailableSteps(sFigure);
         if (availableSteps.contains(array[3]) && sFigure.startsWith("whiteKing") && array[3].equals("a1")) {
+            assert figure != null;
+            figure.setStepsCount(figure.getStepsCount() + 1);
             gameField.put("c1", figure);
             gameField.put("d1", getFigureById("whiteRook1", gameField));
             gameField.put(cell, null);
             gameField.put("a1", null);
-            assert figure != null;
-            figure.setStepsCount(figure.getStepsCount() + 1);
+
             return "Yes";
         } else if (availableSteps.contains(array[3]) && sFigure.startsWith("whiteKing") && array[3].equals("h1")) {
+            assert figure != null;
+            figure.setStepsCount(figure.getStepsCount() + 1);
             gameField.put("g1", figure);
             gameField.put("f1", getFigureById("whiteRook2", gameField));
             gameField.put(cell, null);
             gameField.put("h1", null);
-            assert figure != null;
-            figure.setStepsCount(figure.getStepsCount() + 1);
+
             return "Yes";
         } else if (availableSteps.contains(array[3]) && sFigure.startsWith("blackKing") && array[3].equals("h8")) {
+            assert figure != null;
+            figure.setStepsCount(figure.getStepsCount() + 1);
             gameField.put("g8", figure);
             gameField.put("f8", getFigureById("blackRook2", gameField));
             gameField.put(cell, null);
             gameField.put("h8", null);
-            assert figure != null;
-            figure.setStepsCount(figure.getStepsCount() + 1);
+
             return "Yes";
         } else if (availableSteps.contains(array[3]) && sFigure.startsWith("blackKing") && array[3].equals("a8")) {
+            assert figure != null;
+            figure.setStepsCount(figure.getStepsCount() + 1);
             gameField.put("c8", figure);
             gameField.put("d8", getFigureById("blackRook1", gameField));
             gameField.put(cell, null);
             gameField.put("a8", null);
-            assert figure != null;
-            figure.setStepsCount(figure.getStepsCount() + 1);
+
             return "Yes";
         } else if (availableSteps.contains(array[3])) {
+            assert figure != null;
+            figure.setStepsCount(figure.getStepsCount() + 1);
             gameField.put(array[3], figure);
             gameField.put(cell, null);
             System.out.println("Ok");
-            assert figure != null;
-            figure.setStepsCount(figure.getStepsCount() + 1);
+
             return "Yes";
         } else {
             System.out.println("Cannot make step!");
@@ -172,10 +179,10 @@ public class GameField {
         for (Map.Entry<String, Figure> entry : gameField.entrySet()) {
 
             if (entry.getValue() != null && entry.getValue().getId().equals(figureId)) {
-                System.out.println("entry");
+
                 Map<String, Figure> tempGameField = copyGameField();
                 ArrayList<String> tempSteps = getSteps(figureId, true, true, gameField);
-                System.out.println("tempppppppppppppp" + tempSteps);
+
                 for (String elem : tempSteps) {
                     if (tempGameField.get(elem) != null && tempGameField.get(elem).getId().equals("whiteRook1") && figure.getId().startsWith("white")) {
                         tempGameField.put("d1", getFigureById("whiteRook1", tempGameField));
@@ -191,11 +198,11 @@ public class GameField {
 
                         tempGameField.put(elem, figure);
                         tempGameField.put(entry.getKey(), null);
-                        System.out.println(elem + tempGameField);
+                        //System.out.println(elem + tempGameField);
                     }
                     if (!checkShah(figure, tempGameField)) {
                         steps.add(elem);
-                        System.out.println("not shahed");
+                        //System.out.println("not shahed");
                     }
                     tempGameField = copyGameField();
                 }
@@ -340,36 +347,42 @@ public class GameField {
             }
         }
         if (figure instanceof King) {
+
             if (forKing) {
+
                 if (figure.getId().startsWith("white")) {
                     boolean usedS = false;
                     boolean usedL = false;
                     System.out.println(usedL);
                     for (Map.Entry<String, Figure> entry : gameField.entrySet()) {
                         if (entry.getKey().equals("b1") || entry.getKey().equals("c1") || entry.getKey().equals("d1")) {
-                            if(entry.getValue() != null) {
+                            if (entry.getValue() != null) {
                                 usedL = true;
                             }
                         }
                     }
                     for (Map.Entry<String, Figure> entry : gameField.entrySet()) {
                         if (entry.getKey().equals("f1") || entry.getKey().equals("g1")) {
-                            if(entry.getValue() != null) {
+                            if (entry.getValue() != null) {
                                 usedS = true;
                             }
                         }
                     }
                     if (!usedL && getFigureById("whiteRook1", gameField).getStepsCount() == 0 && figure.getStepsCount() == 0) {
                         Set<String> strings = getAttackedPos("black", gameField);
-                        if (strings.contains("b1") && strings.contains("c1") && strings.contains("d1")) {
+                        if (strings.contains("b1") || strings.contains("c1") || strings.contains("d1")) {
                             usedL = true;
                         }
+                    } else {
+                        usedL = true;
                     }
                     if (!usedS && getFigureById("whiteRook2", gameField).getStepsCount() == 0 && figure.getStepsCount() == 0) {
                         Set<String> strings = getAttackedPos("black", gameField);
-                        if (strings.contains("f1") && strings.contains("g1")) {
+                        if (strings.contains("f1") || strings.contains("g1")) {
                             usedS = true;
                         }
+                    } else {
+                        usedS = true;
                     }
                     if (!usedL) cells.add("a1");
                     if (!usedS) {
@@ -382,29 +395,33 @@ public class GameField {
                     System.out.println(usedL);
                     for (Map.Entry<String, Figure> entry : gameField.entrySet()) {
                         if (entry.getKey().equals("b8") || entry.getKey().equals("c8") || entry.getKey().equals("d8")) {
-                            if(entry.getValue() != null) {
+                            if (entry.getValue() != null) {
                                 usedL = true;
                             }
                         }
                     }
                     for (Map.Entry<String, Figure> entry : gameField.entrySet()) {
                         if (entry.getKey().equals("f8") || entry.getKey().equals("g8")) {
-                            if(entry.getValue() != null) {
+                            if (entry.getValue() != null) {
                                 usedS = true;
                             }
                         }
                     }
                     if (!usedL && getFigureById("blackRook1", gameField).getStepsCount() == 0 && figure.getStepsCount() == 0) {
                         Set<String> strings = getAttackedPos("white", gameField);
-                        if (strings.contains("b8") && strings.contains("c8") && strings.contains("d8")) {
+                        if (strings.contains("b8") || strings.contains("c8") || strings.contains("d8")) {
                             usedL = true;
                         }
+                    } else {
+                        usedL = true;
                     }
                     if (!usedS && getFigureById("blackRook2", gameField).getStepsCount() == 0 && figure.getStepsCount() == 0) {
                         Set<String> strings = getAttackedPos("white", gameField);
-                        if (strings.contains("f8") && strings.contains("g8")) {
+                        if (strings.contains("f8") || strings.contains("g8")) {
                             usedS = true;
                         }
+                    } else {
+                        usedS = true;
                     }
                     if (!usedL) cells.add("a8");
                     if (!usedS) {
@@ -421,6 +438,7 @@ public class GameField {
     }
 
     public int vocabulary(String cellID) {
+
         try {
             String[] vocabulary = {"a", "b", "c", "d", "e", "f", "g", "h",};
             int id = 0;
@@ -438,6 +456,7 @@ public class GameField {
     }
 
     public String vocabulary(int cellID) {
+
         try {
             String[] vocabulary = {"a", "b", "c", "d", "e", "f", "g", "h",};
             String id = null;
@@ -446,6 +465,7 @@ public class GameField {
             int secondPar = Integer.parseInt(sID.substring(1, 2));
             if (!(secondPar > 0 & secondPar < 9)) throw new Exception();
             return vocabulary[Integer.parseInt(sID.substring(0, 1)) - 1] + sID.substring(1, 2);
+
         } catch (Exception e) {
             return "wrong cell";
         }
@@ -453,6 +473,7 @@ public class GameField {
     }
 
     public Figure getFigureOnCell(int cellID, Map<String, Figure> gameField) {
+
         String sCellID = vocabulary(cellID);
         Figure figure = null;
         for (Map.Entry<String, Figure> entry : gameField.entrySet()) {
@@ -462,6 +483,7 @@ public class GameField {
     }
 
     public Figure getFigureOnCell(String cellID, Map<String, Figure> gameField) {
+
         Figure figure = null;
         for (Map.Entry<String, Figure> entry : gameField.entrySet()) {
             if (entry.getKey().equals(cellID)) figure = entry.getValue();
@@ -470,6 +492,7 @@ public class GameField {
     }
 
     public String getSide(Figure figure) {
+
         if (figure.getId().startsWith("black")) {
             return "black";
         } else if (figure.getId().startsWith("white")) {
@@ -480,14 +503,15 @@ public class GameField {
     public boolean checkShah(Figure figure, Map<String, Figure> gameField1) {
 
         String side = getSide(figure);
-        System.out.println("ch" + gameField1);
 
         String cell = null;
+
         for (Map.Entry<String, Figure> entry : gameField1.entrySet()) {
             if (entry.getValue() != null && entry.getValue().getId().startsWith(side) && entry.getValue() instanceof King) {
                 cell = entry.getKey();
             }
         }
+
         Set<String> strings = new HashSet<>();
         for (Map.Entry<String, Figure> entry : gameField1.entrySet()) {
             if (entry.getValue() != null && !entry.getValue().getId().startsWith(side)) {

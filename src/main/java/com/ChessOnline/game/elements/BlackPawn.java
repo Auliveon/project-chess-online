@@ -1,9 +1,9 @@
-package com.ChessOnline.game.gameFieldElements;
+package com.ChessOnline.game.elements;
 
-public class King implements Figure {
+public class BlackPawn implements Figure {
     private String id;
-    private int[] stepValue = {10,-10,1,-1,11,-11,9,-9};
-    private int varCount = 1;
+    private int[] stepValue = {-1};
+    private int varCount = 2;
     private int stepsCount = 0;
 
     public int getStepsCount() {
@@ -17,7 +17,7 @@ public class King implements Figure {
         return varCount;
     }
 
-    public King(String id) {
+    public BlackPawn(String id) {
         this.id = id;
     }
 
@@ -37,3 +37,5 @@ public class King implements Figure {
         this.stepValue = stepValue;
     }
 }
+
+
