@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html class="" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+<th:block layout:insert="~{fragments/bootstrap.html}"/>
+<body style="background-color: lightgray">
+<header>
+    <div th:replace="fragments/nav-bar :: nav_bar"></div>
+    <script th:src="@{/game/js/findGame.js}"></script>
+</header>
+
+<div class="m-5 text-center d-flex justify-content-center">
+    <div class="col-4 m-5 pb-3 shadow bg-white rounded-3">
+    <div class="col-12"><text class="h4">В случае обрыва соединения игра заканчивается</text></div>
+    <button type="button" class="btn btn-success mt-4 col-4" id="findGame" onclick="findGame()">Найти игру</button>
+    </div>
+</div>
+<div class="modal fade" id="findingGame" tabindex="-1" aria-labelledby="editModalLabel"
+     aria-hidden="true"></div>
+</body>
+</html>

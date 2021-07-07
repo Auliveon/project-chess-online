@@ -1,6 +1,6 @@
-package com.ChessOnline.services;
+package com.ChessOnline.services.other;
 
-import com.ChessOnline.models.Player;
+import com.ChessOnline.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -29,18 +29,8 @@ public class RegUserValidator {
         }
 
 
-        List<Player> usersList;
-        SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Player.class).buildSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.beginTransaction();
-        String usernamef = "'" + username + "'";
-        usersList = session.createQuery("from Player " + "where username = " + usernamef).getResultList();
-        session.getTransaction().commit();
-        factory.close();
-        if (usersList.size() > 0) {
-            if (usersList.get(0).getUsername().equalsIgnoreCase(username)) return false;
-            else return true;
-        }
+        List<User> usersList;
+
         return true;
     }
 

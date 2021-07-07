@@ -1,12 +1,11 @@
 package com.ChessOnline.game;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UniqueSessions {
     public static List<Session> sessionList = new ArrayList<>();
-    public static boolean uniqueAdd(ModPlayer player1, ModPlayer player2) {
+    public static boolean uniqueAdd(Player player1, Player player2) {
         if(sessionList.stream().noneMatch(elem -> elem.getSessionPlayersNames().contains(player1.getUserName()))
             && sessionList.stream().noneMatch(elem -> elem.getSessionPlayersNames().contains(player2.getUserName()))) {
             sessionList.add(new Session(player1, player2));
@@ -17,14 +16,14 @@ public class UniqueSessions {
 
     }
 
-    public static Session getSessionByModPlayer(ModPlayer player) {
+    public static Session getSessionByModPlayer(Player player) {
         for (Session session: sessionList) {
             if(session.getSessionPlayersNames().contains(player.getUserName())) return session;
         }
         return null;
     }
 
-    public static boolean checkModPlayerInSessionList(ModPlayer player) {
+    public static boolean checkModPlayerInSessionList(Player player) {
         for(Session session: sessionList) {
             if(session.getSessionPlayersNames().contains(player.getUserName())) return true;
         }

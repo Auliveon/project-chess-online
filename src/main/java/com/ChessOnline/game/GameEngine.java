@@ -94,18 +94,25 @@ public class GameEngine {
         Set<String> whiteSteps = new HashSet<>();
         Set<String> blackSteps = new HashSet<>();
         for (Map.Entry<String, Figure> stringFigureEntry : gameField.entrySet()) {
-            if (stringFigureEntry.getValue() != null && stringFigureEntry.getValue().getId().startsWith("white")) {
+            if (stringFigureEntry.getValue() != null && stringFigureEntry.getValue().getId().startsWith("white")
+
+            ) {
                 whiteSteps.addAll(getAvailableSteps(stringFigureEntry.getValue().getId()));
-            } else if (stringFigureEntry.getValue() != null && stringFigureEntry.getValue().getId().startsWith("black")) {
+            } else if (stringFigureEntry.getValue() != null && stringFigureEntry.getValue().getId().startsWith("black")
+
+            ) {
                 blackSteps.addAll(getAvailableSteps(stringFigureEntry.getValue().getId()));
             }
         }
-        if (whiteSteps.size() == 0 && blackSteps.size() > 0) return "black";
-        else if (blackSteps.size() == 0 && whiteSteps.size() > 0) return "white";
+        System.out.println(whiteSteps);
+        System.out.println(blackSteps);
+        if (whiteSteps.size() == 0 && blackSteps.size() > 0 && checkShah("white", gameField)) return "black";
+        else if (blackSteps.size() == 0 && whiteSteps.size() > 0 && checkShah("black", gameField)) return "white";
         return "none";
     }
 
     public String makeTurn(String step) {
+
         String convertedStep = step.substring(1, step.length() - 1);
         System.out.println(convertedStep);
         String[] array = convertedStep.split("-");
@@ -118,7 +125,6 @@ public class GameEngine {
                 figure = entry.getValue();
             }
         }
-        System.out.println("asdasdasdasdasdas" + figure.getStepsCount());
 
         ArrayList<String> availableSteps = getAvailableSteps(sFigure);
         if (availableSteps.contains(array[3]) && sFigure.startsWith("whiteKing") && array[3].equals("a1")) {
@@ -518,6 +524,27 @@ public class GameEngine {
                 strings.addAll(getSteps(entry.getValue().getId(), true, false, gameField1));
             }
         }
+        return strings.contains(cell);
+
+    }
+
+    public boolean checkShah(String side, Map<String, Figure> gameField1) {
+
+        String cell = null;
+
+        for (Map.Entry<String, Figure> entry : gameField1.entrySet()) {
+            if (entry.getValue() != null && entry.getValue().getId().startsWith(side) && entry.getValue() instanceof King) {
+                cell = entry.getKey();
+            }
+        }
+
+        Set<String> strings = new HashSet<>();
+        for (Map.Entry<String, Figure> entry : gameField1.entrySet()) {
+            if (entry.getValue() != null && !entry.getValue().getId().startsWith(side)) {
+                strings.addAll(getSteps(entry.getValue().getId(), true, false, gameField1));
+            }
+        }
+        System.out.println(side + " " + cell + " " + strings);
         return strings.contains(cell);
 
     }

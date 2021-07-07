@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html class="" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+<th:block layout:insert="~{fragments/bootstrap.html}"/>
+<body style="background: lightgray">
+<header>
+    <div th:replace="fragments/nav-bar :: nav_bar"></div>
+</header>
+<div class="justify-content-center d-flex">
+    <div class="m-5 row bg-white" style="width: 1140px; height: 644px; background: lightgray">
+
+        <div id="names" class="bg-white row" style="width: 220px; height: 644px">
+            <div class="col-1 mt-3">
+                <img id="sword" src=https://img.icons8.com/material/452/sword.png width="30" height="30">
+            </div>
+            <div class="text-center ms-2 pt-3 col-10">
+
+                <p class="h4" id="enemyName">Enemy</p>
+            </div>
+            <div class="" style="display: flex; align-items: flex-end">
+                <div class="col-1 mb-1">
+                    <img id="sword2" src=https://img.icons8.com/material/452/sword.png width="30" height="30">
+                </div>
+                <div class="text-center ms-3 pt-3 col-10">
+
+                    <p class="h4" id="yourName">Enemy</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="game" class="bg-success" style="width: 644px; height: 644px">
+        </div>
+        <div id="game2" class="bg-secondary" style="width: 300px; height: 644px; min-width: 100px">
+
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>

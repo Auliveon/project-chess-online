@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.Random;
 public class URLGenerator {
-    @ModelAttribute("gggg")
+
     public String generateURL(int length) {
         Random rnd = new Random();
         StringBuilder activationCode = new StringBuilder();

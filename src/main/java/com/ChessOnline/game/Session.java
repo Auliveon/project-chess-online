@@ -9,15 +9,15 @@ import java.util.*;
 public class Session {
     private String sessionName;
     private List<String> sessionPlayersNames = new ArrayList<>();
-    private List<ModPlayer> sessionPlayers = new ArrayList<>();
+    private List<Player> sessionPlayers = new ArrayList<>();
     private Step[] stepsHistory;
-    private ModPlayer p1;
-    private ModPlayer p2;
+    private Player p1;
+    private Player p2;
     private GameEngine gameEngine = new GameEngine();
     private ArrayDeque<Answer> p1Requests = new ArrayDeque<>();
     private ArrayDeque<Answer> p2Requests = new ArrayDeque<>();
 
-    public Session(ModPlayer p1, ModPlayer p2) {
+    public Session(Player p1, Player p2) {
         this.p1 = p1;
         this.p2 = p2;
         this.p1.setSide("white");
@@ -27,11 +27,12 @@ public class Session {
         this.sessionPlayersNames.add(p1.getUserName());
         this.sessionPlayersNames.add(p2.getUserName());
         this.sessionName = p1.getUserName() + "-" + p2.getUserName();
-        this.p1Requests.add(new Answer("a", "You", "startGame", null, "white"));
-        this.p2Requests.add(new Answer("a", "", "startGame", null, "black"));
+        this.p1Requests.add(new Answer(null, null, "gameReady", null, null, p2.getUserName()));
+        this.p2Requests.add(new Answer(null, null, "gameReady", null, null, p1.getUserName()));
+        this.p1Requests.add(new Answer(null, "You", "startGame", null, "white", p2.getUserName()));
+        this.p2Requests.add(new Answer(null, "", "startGame", null, "black", p1.getUserName()));
 
     }
-
     public void requestHandler(String stringRequest, String name, HttpServletResponse response) throws IOException {
         //System.out.println(stringRequest);
 
@@ -43,7 +44,7 @@ public class Session {
                     response.getWriter().write(objectMapper.writeValueAsString(p1Requests.poll()));
                 } else {
                     response.getWriter().write(objectMapper.writeValueAsString(new Answer(null, null,
-                            null, null, null)));
+                            null, null, null, p2.getUserName())));
 
                 }
             }
@@ -54,7 +55,7 @@ public class Session {
                     response.getWriter().write(objectMapper.writeValueAsString(p2Requests.poll()));
                 } else {
                     response.getWriter().write(objectMapper.writeValueAsString(new Answer(null, null,
-                            null, null, null)));
+                            null, null, null, p1.getUserName())));
 
                 }
             }
@@ -66,38 +67,50 @@ public class Session {
             response.getWriter().write(objectMapper.writeValueAsString(gameEngine));
 
         }
+        if (stringRequest.startsWith("\"getSide")) {
+            if (p1.getUserName().equals(name)) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                response.getWriter().write(objectMapper.writeValueAsString(new Answer(null, null,
+                        "white", null, null, p2.getUserName())));
+            } else {
+                ObjectMapper objectMapper = new ObjectMapper();
+                response.getWriter().write(objectMapper.writeValueAsString(new Answer(null, null,
+                        "black", null, null, p1.getUserName())));
+            }
+        }
 
         if (stringRequest.startsWith("\"step")) {
+            String step = convertRequest(stringRequest);
             String answer = gameEngine.makeTurn(stringRequest);
             if(answer.equals("Yes")) {
                 if (name.equals(p1.getUserName())) {
                     if(gameEngine.checkMat().equals("white")) {
-                        p2Requests.add(new Answer("Lose", null, null, null, null));
-                        p1Requests.add(new Answer("Win", null, null, null, null));
+                        p2Requests.add(new Answer(null, null, "Lose", null, null, null));
+                        p1Requests.add(new Answer(null, null, "Win", null, null, null));
                     }
-                    p2Requests.add(new Answer(null, "You", "updateField", null, null));
-                    p1Requests.add(new Answer(null, "", "updateField", null, null));
+                    p2Requests.add(new Answer(step.split("-")[1] + "-" + step.split("-")[3], "You", "updateField", null, null, p1.getUserName()));
+                    p1Requests.add(new Answer(null, "", "updateField", null, null, p2.getUserName()));
 
                 }
 
                 if (name.equals(p2.getUserName())) {
                     if(gameEngine.checkMat().equals("black")) {
-                        p1Requests.add(new Answer("Lose", null, null, null, null));
-                        p2Requests.add(new Answer("Win", null, null, null, null));
+                        p1Requests.add(new Answer(null, null, "Lose", null, null, null));
+                        p2Requests.add(new Answer(null, null, "Win", null, null, null));
                     }
-                    p1Requests.add(new Answer(null, "You", "updateField", null, null));
-                    p2Requests.add(new Answer(null, "", "updateField", null, null));
+                    p1Requests.add(new Answer(step.split("-")[1] + "-" + step.split("-")[3], "You", "updateField", null, null, null));
+                    p2Requests.add(new Answer(null, "", "updateField", null, null, null));
                 }
             }
             else if(answer.equals("No")) {
                 if (name.equals(p1.getUserName())) {
-                    p2Requests.add(new Answer(null, "", "updateField", null, null));
-                    p1Requests.add(new Answer(null, "You", "updateField", null, null));
+                    p2Requests.add(new Answer(null, "", "updateField", null, null, null));
+                    p1Requests.add(new Answer(null, "You", "updateField", null, null, null));
                 }
 
                 if (name.equals(p2.getUserName())) {
-                    p1Requests.add(new Answer(null, "", "updateField", null, null));
-                    p2Requests.add(new Answer(null, "You", "updateField", null, null));
+                    p1Requests.add(new Answer(null, "", "updateField", null, null, null));
+                    p2Requests.add(new Answer(null, "You", "updateField", null, null, null));
                 }
             }
         }
@@ -124,7 +137,7 @@ public class Session {
 
     }
 
-    public List<ModPlayer> getSessionPlayers() {
+    public List<Player> getSessionPlayers() {
         return sessionPlayers;
     }
 
@@ -140,8 +153,8 @@ public class Session {
         return stepsHistory;
     }
 
-    public String getAnotherModPlayer(ModPlayer player) {
-        for (ModPlayer pl : sessionPlayers) {
+    public String getAnotherModPlayer(Player player) {
+        for (Player pl : sessionPlayers) {
             if (!pl.getUserName().equals(player.getUserName())) return pl.getUserName();
         }
         return null;

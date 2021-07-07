@@ -16,17 +16,18 @@ public class Sender {
     public void handler(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String stringRequest = request.getReader().readLine();
 
-        if(UniqueSessions.checkModPlayerInSessionList(new ModPlayer(request))) {
+        if(UniqueSessions.checkModPlayerInSessionList(new Player(request))) {
             Objects.requireNonNull(UniqueSessions.getSessionByModPlayer
-                    (new ModPlayer(request))).requestHandler(stringRequest, request.getRemoteUser(), response);
+                    (new Player(request))).requestHandler(stringRequest, request.getRemoteUser(), response);
         }
 
-        else if(UniqueUserQueue.checkModPlayerInUserQueue(new ModPlayer(request))) {
+        else if(UniqueUserQueue.checkModPlayerInUserQueue(new Player(request))) {
+
             UniqueUserQueue.handler(stringRequest, request.getRemoteUser(), response);
         }
 
         else if(stringRequest.equals("\"addMeOnQueue\"")) {
-            UniqueUserQueue.uniqueAdd(new ModPlayer(request));
+            UniqueUserQueue.uniqueAdd(new Player(request));
             response.getWriter().write("added");
         } else {
             response.getWriter().write("no");

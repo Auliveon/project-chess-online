@@ -3,12 +3,12 @@ package com.ChessOnline.game;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ModPlayer {
+public class Player {
     private String userName;
     private String side;
 
 
-    public ModPlayer(HttpServletRequest request) {
+    public Player(HttpServletRequest request) {
         this.userName = request.getRemoteUser();
 
     }
