@@ -108,6 +108,7 @@ public class GameEngine {
         System.out.println(blackSteps);
         if (whiteSteps.size() == 0 && blackSteps.size() > 0 && checkShah("white", gameField)) return "black";
         else if (blackSteps.size() == 0 && whiteSteps.size() > 0 && checkShah("black", gameField)) return "white";
+        else if((whiteSteps.size() == 0 && blackSteps.size() > 0 || blackSteps.size() == 0 && whiteSteps.size() > 0)) return "pat";
         return "none";
     }
 
@@ -361,7 +362,7 @@ public class GameEngine {
                     boolean usedL = false;
                     System.out.println(usedL);
                     for (Map.Entry<String, Figure> entry : gameField.entrySet()) {
-                        if (entry.getKey().equals("b1") || entry.getKey().equals("c1") || entry.getKey().equals("d1")) {
+                        if (entry.getKey().equals("b1") || entry.getKey().equals("c1") || entry.getKey().equals("d1") || entry.getKey().equals("e1")) {
                             if (entry.getValue() != null) {
                                 usedL = true;
                             }
@@ -376,7 +377,7 @@ public class GameEngine {
                     }
                     if (!usedL && getFigureById("whiteRook1", gameField).getStepsCount() == 0 && figure.getStepsCount() == 0) {
                         Set<String> strings = getAttackedPos("black", gameField);
-                        if (strings.contains("b1") || strings.contains("c1") || strings.contains("d1")) {
+                        if (strings.contains("b1") || strings.contains("c1") || strings.contains("d1") || strings.contains("e1")) {
                             usedL = true;
                         }
                     } else {
@@ -384,7 +385,7 @@ public class GameEngine {
                     }
                     if (!usedS && getFigureById("whiteRook2", gameField).getStepsCount() == 0 && figure.getStepsCount() == 0) {
                         Set<String> strings = getAttackedPos("black", gameField);
-                        if (strings.contains("f1") || strings.contains("g1")) {
+                        if (strings.contains("f1") || strings.contains("g1") || strings.contains("e1")) {
                             usedS = true;
                         }
                     } else {
@@ -400,7 +401,7 @@ public class GameEngine {
                     boolean usedL = false;
                     System.out.println(usedL);
                     for (Map.Entry<String, Figure> entry : gameField.entrySet()) {
-                        if (entry.getKey().equals("b8") || entry.getKey().equals("c8") || entry.getKey().equals("d8")) {
+                        if (entry.getKey().equals("b8") || entry.getKey().equals("c8") || entry.getKey().equals("d8") || entry.getKey().equals("e8")) {
                             if (entry.getValue() != null) {
                                 usedL = true;
                             }
@@ -415,7 +416,7 @@ public class GameEngine {
                     }
                     if (!usedL && getFigureById("blackRook1", gameField).getStepsCount() == 0 && figure.getStepsCount() == 0) {
                         Set<String> strings = getAttackedPos("white", gameField);
-                        if (strings.contains("b8") || strings.contains("c8") || strings.contains("d8")) {
+                        if (strings.contains("b8") || strings.contains("c8") || strings.contains("d8") || strings.contains("e8") ) {
                             usedL = true;
                         }
                     } else {
@@ -423,7 +424,7 @@ public class GameEngine {
                     }
                     if (!usedS && getFigureById("blackRook2", gameField).getStepsCount() == 0 && figure.getStepsCount() == 0) {
                         Set<String> strings = getAttackedPos("white", gameField);
-                        if (strings.contains("f8") || strings.contains("g8")) {
+                        if (strings.contains("f8") || strings.contains("g8") || strings.contains("e8")) {
                             usedS = true;
                         }
                     } else {

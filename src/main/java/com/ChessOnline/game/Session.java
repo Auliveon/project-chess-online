@@ -16,6 +16,7 @@ public class Session {
     private GameEngine gameEngine = new GameEngine();
     private ArrayDeque<Answer> p1Requests = new ArrayDeque<>();
     private ArrayDeque<Answer> p2Requests = new ArrayDeque<>();
+    private String lastStep;
 
     public Session(Player p1, Player p2) {
         this.p1 = p1;
@@ -83,6 +84,7 @@ public class Session {
             String step = convertRequest(stringRequest);
             String answer = gameEngine.makeTurn(stringRequest);
             if(answer.equals("Yes")) {
+                lastStep = step.split("-")[1] + "-" + step.split("-")[3];
                 if (name.equals(p1.getUserName())) {
                     if(gameEngine.checkMat().equals("white")) {
                         p2Requests.add(new Answer(null, null, "Lose", null, null, null));
@@ -105,12 +107,12 @@ public class Session {
             else if(answer.equals("No")) {
                 if (name.equals(p1.getUserName())) {
                     p2Requests.add(new Answer(null, "", "updateField", null, null, null));
-                    p1Requests.add(new Answer(null, "You", "updateField", null, null, null));
+                    p1Requests.add(new Answer(lastStep, "You", "updateField", null, null, null));
                 }
 
                 if (name.equals(p2.getUserName())) {
                     p1Requests.add(new Answer(null, "", "updateField", null, null, null));
-                    p2Requests.add(new Answer(null, "You", "updateField", null, null, null));
+                    p2Requests.add(new Answer(lastStep, "You", "updateField", null, null, null));
                 }
             }
         }

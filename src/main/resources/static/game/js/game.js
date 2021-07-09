@@ -283,7 +283,7 @@ function updateField() {
         });
     });
 
-    if(who === "You" && answer.lastStep !== "null") {
+    if(who === "You" && answer.lastStep !== null) {
         let step = answer.lastStep.split("-");
         let startPosition = document.querySelector(`#${step[0]}`);
         let endPosition = document.querySelector(`#${step[1]}`);
