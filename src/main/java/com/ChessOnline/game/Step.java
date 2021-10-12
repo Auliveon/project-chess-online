@@ -4,13 +4,13 @@ public class Step {
     private String startPosition;
     private String endPosition;
     private String figure;
-    private String side;
+    private String username;
 
-    public Step(String startPosition, String endPosition, String figure, String side) {
+    public Step(String startPosition, String endPosition, String figure, String username) {
         this.startPosition = startPosition;
         this.endPosition = endPosition;
         this.figure = figure;
-        this.side = side;
+        this.username = username;
     }
 
     public String getStartPosition() {
@@ -37,11 +37,11 @@ public class Step {
         this.figure = figure;
     }
 
-    public String getSide() {
-        return side;
+    public String getUsername() {
+        return username;
     }
 
-    public void setSide(String side) {
-        this.side = side;
+    public void setUsername(String side) {
+        this.username = side;
     }
 }

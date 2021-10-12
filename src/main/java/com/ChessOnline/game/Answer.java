@@ -10,12 +10,7 @@ public class Answer {
     private String side;
     private String enemyName;
 
-    public Answer(@JsonProperty(value = "lastStep") String lastStep,
-                  @JsonProperty(value = "whoTurn") String whoTurn,
-                  @JsonProperty(value = "mess") String message,
-                  @JsonProperty(value = "gameField") GameEngine gameEngine,
-                  @JsonProperty(value = "side") String side,
-                  @JsonProperty(value = "enemyName") String enemyName) {
+    public Answer(String lastStep, String whoTurn, String message, GameEngine gameEngine, String side, String enemyName) {
         this.lastStep = lastStep;
         this.whoTurn = whoTurn;
         this.message = message;

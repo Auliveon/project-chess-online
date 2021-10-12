@@ -104,8 +104,6 @@ public class GameEngine {
                 blackSteps.addAll(getAvailableSteps(stringFigureEntry.getValue().getId()));
             }
         }
-        System.out.println(whiteSteps);
-        System.out.println(blackSteps);
         if (whiteSteps.size() == 0 && blackSteps.size() > 0 && checkShah("white", gameField)) return "black";
         else if (blackSteps.size() == 0 && whiteSteps.size() > 0 && checkShah("black", gameField)) return "white";
         else if((whiteSteps.size() == 0 && blackSteps.size() > 0 || blackSteps.size() == 0 && whiteSteps.size() > 0)) return "pat";
@@ -222,12 +220,10 @@ public class GameEngine {
 
         Figure figure = null;
 
-        String sFigure = f;
-
         String currentCell = null;
 
         for (Map.Entry<String, Figure> entry : gameField.entrySet()) {
-            if (entry.getValue() != null && entry.getValue().getId().equals(sFigure)) {
+            if (entry.getValue() != null && entry.getValue().getId().equals(f)) {
                 currentCell = entry.getKey();
                 figure = entry.getValue();
             }
@@ -436,8 +432,6 @@ public class GameEngine {
                         System.out.println("usedS");
                     }
                 }
-
-
             }
         }
 
@@ -545,7 +539,6 @@ public class GameEngine {
                 strings.addAll(getSteps(entry.getValue().getId(), true, false, gameField1));
             }
         }
-        System.out.println(side + " " + cell + " " + strings);
         return strings.contains(cell);
 
     }

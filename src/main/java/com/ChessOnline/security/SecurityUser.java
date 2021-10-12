@@ -1,7 +1,7 @@
 package com.ChessOnline.security;
 
-import com.ChessOnline.models.Status;
-import com.ChessOnline.models.User;
+import com.ChessOnline.model.Status;
+import com.ChessOnline.model.User;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
