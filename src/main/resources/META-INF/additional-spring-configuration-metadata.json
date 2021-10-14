@@ -1,0 +1,49 @@
+{
+  "properties": [
+    {
+      "name": "mail.host",
+      "type": "java.lang.String",
+      "description": "Description for mail.host."
+    },
+    {
+      "name": "mail.port",
+      "type": "java.lang.String",
+      "description": "Description for mail.port."
+    },
+    {
+      "name": "mail.auth",
+      "type": "java.lang.String",
+      "description": "Description for mail.auth."
+    },
+    {
+      "name": "mail.enable",
+      "type": "java.lang.String",
+      "description": "Description for mail.enable."
+    },
+    {
+      "name": "mail.protocol",
+      "type": "java.lang.String",
+      "description": "Description for mail.protocol."
+    },
+    {
+      "name": "db.url",
+      "type": "java.lang.String",
+      "description": "Description for db.url."
+    },
+    {
+      "name": "db.login",
+      "type": "java.lang.String",
+      "description": "Description for db.login."
+    },
+    {
+      "name": "db.password",
+      "type": "java.lang.String",
+      "description": "Description for db.password."
+    },
+    {
+      "name": "mail.trust",
+      "type": "java.lang.String",
+      "description": "Description for mail.trust."
+    }
+  ]
+}

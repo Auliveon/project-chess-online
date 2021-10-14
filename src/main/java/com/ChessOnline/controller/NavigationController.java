@@ -1,7 +1,8 @@
-package com.ChessOnline.controller.viewControllers.mainControllers;
+package com.ChessOnline.controller;
 
 import com.ChessOnline.game.Player;
 import com.ChessOnline.util.UniqueSessions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class MainController {
+public class NavigationController {
 
     @GetMapping("/")
     public String main() {
@@ -32,6 +33,7 @@ public class MainController {
         return model;
     }
 
+    @PreAuthorize("")
     @GetMapping("/game")
     public String game(HttpServletRequest request) {
         if(UniqueSessions.checkModPlayerInSessionList(new Player(request))) {
@@ -43,6 +45,11 @@ public class MainController {
     @GetMapping("/test")
     public String test() {
         return "testPages/testPage1";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "registrationTemplates/register";
     }
 
 

@@ -2,6 +2,7 @@ package com.ChessOnline.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -14,15 +15,13 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+@ConfigurationProperties(prefix = "db")
 public class HibernateConfig {
 
-    @Value("${datasource.url}")
     private String url;
 
-    @Value("${datasource.login}")
     private String login;
 
-    @Value("${datasource.password}")
     private String password;
 
     @Bean("sessionFactoryChessOnline")
@@ -60,4 +59,29 @@ public class HibernateConfig {
                 "hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         return hibernateProperties;
     }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }

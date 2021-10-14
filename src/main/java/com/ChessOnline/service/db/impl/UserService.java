@@ -25,7 +25,7 @@ public class UserService implements IUserService {
 
     private PasswordEncoder passwordEncoder;
 
-    public UserService(PasswordEncoder passwordEncoder, @Qualifier("sessionFactoryChessOnline") SessionFactory sessionFactory) {
+    public UserService(PasswordEncoder passwordEncoder, SessionFactory sessionFactory) {
         this.passwordEncoder = passwordEncoder;
         this.sessionFactory = sessionFactory;
     }

@@ -1,5 +1,6 @@
 package com.ChessOnline.config;
 
+import org.springframework.boot.configurationprocessor.MetadataCollector;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.OncePerRequestFilter;
 
