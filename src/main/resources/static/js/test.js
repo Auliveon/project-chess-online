@@ -1,1 +1,1 @@
-alert("Rekkey");
+alert("23");

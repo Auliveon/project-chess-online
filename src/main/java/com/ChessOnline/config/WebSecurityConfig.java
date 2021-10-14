@@ -35,7 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/webjars/**",
                     "/fonts/*",
                     "/game/assets/*",
-                    "/h2/*"
+                    "/h2/*",
+                    "/js/**"
             };
 
     private static final String[] PUBLIC_PAGES =

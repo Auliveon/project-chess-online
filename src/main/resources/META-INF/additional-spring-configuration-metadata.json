@@ -16,14 +16,19 @@
       "description": "Description for mail.auth."
     },
     {
-      "name": "mail.enable",
+      "name": "mail.trust",
       "type": "java.lang.String",
-      "description": "Description for mail.enable."
+      "description": "Description for mail.trust."
     },
     {
       "name": "mail.protocol",
       "type": "java.lang.String",
       "description": "Description for mail.protocol."
+    },
+    {
+      "name": "mail.enable",
+      "type": "java.lang.String",
+      "description": "Description for mail.enable."
     },
     {
       "name": "db.url",
@@ -39,11 +44,6 @@
       "name": "db.password",
       "type": "java.lang.String",
       "description": "Description for db.password."
-    },
-    {
-      "name": "mail.trust",
-      "type": "java.lang.String",
-      "description": "Description for mail.trust."
     }
   ]
 }
