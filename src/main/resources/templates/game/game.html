@@ -16,16 +16,14 @@
                 <img id="sword" src=https://img.icons8.com/material/452/sword.png width="30" height="30" hidden="true">
             </div>
             <div class="text-center ms-2 pt-3 col-10">
-
-                <p class="h4" id="enemyName">Enemy</p>
+                <p class="h4" style="color: blue" id="enemyName">Enemy</p>
             </div>
             <div class="" style="display: flex; align-items: flex-end">
                 <div class="col-1 mb-1">
                     <img id="sword2" src=https://img.icons8.com/material/452/sword.png width="30" height="30" hidden="true">
                 </div>
                 <div class="text-center ms-3 pt-3 col-10">
-
-                    <p class="h4" id="yourName" th:text="${#httpServletRequest.getRemoteUser()}"></p>
+                    <p class="h4" style="color: red" id="yourName" th:text="${#httpServletRequest.getRemoteUser()}"></p>
                 </div>
             </div>
         </div>

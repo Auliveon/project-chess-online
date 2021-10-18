@@ -12,12 +12,24 @@ let answer = {
     side: null,
     enemyName: null
 }
+let message = {};
 let side = "";
 let who = "";
 let enemyNode = null;
 let yourNode = null;
 
-
+let b = setInterval(() => {
+    fetch("/ajax", {
+        method: "POST",
+        body: JSON.stringify("getChatMessages"),
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }).then(resp => resp.json())
+        .then(resp => {
+            createMessageDiv(resp)});
+    // clearInterval(a);
+}, 1000);
 
 let a = setInterval(() => {
     fetch("/ajax", {
@@ -28,7 +40,6 @@ let a = setInterval(() => {
         }
     }).then(resp => resp.json())
         .then(resp => {
-
             answer = JSON.parse(JSON.stringify(resp));
         })
         .then(() => {
@@ -59,9 +70,19 @@ let a = setInterval(() => {
     // clearInterval(a);
 }, 100);
 
+function sendMessage(text) {
+    fetch("/ajax", {
+        method: "POST",
+        body: 'addChatMessage' + String.fromCharCode(3798) + JSON.stringify({author: "", text: text}),
+        headers: {
+            'Content-type': 'application/json'
+        }
+    });
+}
+
 function addFiguresOnField() {
     enemyNode.textContent = answer.enemyName;
-    if(answer.whoTurn === "You") {
+    if (answer.whoTurn === "You") {
         document.querySelector("#sword2").hidden = false;
         document.querySelector("#sword").hidden = true;
     } else {
@@ -213,7 +234,7 @@ function sendStep() {
 }
 
 function updateField() {
-    if(answer.whoTurn === "You") {
+    if (answer.whoTurn === "You") {
         document.querySelector("#sword2").hidden = false;
         document.querySelector("#sword").hidden = true;
     } else {
@@ -255,13 +276,13 @@ function updateField() {
                     f.id = gameFieldMap[figure].id;
                     f.className = figureName;
                     let tempF = cell.querySelector("img");
-                    if(tempF != null) tempF.remove();
+                    if (tempF != null) tempF.remove();
                     cell.append(f)
                 }
 
             } else {
                 let tempF = cell.querySelector("img");
-                if(tempF != null) tempF.remove();
+                if (tempF != null) tempF.remove();
 
             }
 
@@ -283,16 +304,16 @@ function updateField() {
         });
     });
 
-    if(who === "You" && answer.lastStep !== null) {
+    if (who === "You" && answer.lastStep !== null) {
         let step = answer.lastStep.split("-");
         let startPosition = document.querySelector(`#${step[0]}`);
         let endPosition = document.querySelector(`#${step[1]}`);
         startPosition.classList.add("border", "border-3", "border-danger");
         endPosition.classList.add("border", "border-3", "border-danger");
     } else {
-       document.querySelectorAll(`.cell`).forEach((elem) => {
-           elem.classList.remove("border", "border-3", "border-danger");
-       });
+        document.querySelectorAll(`.cell`).forEach((elem) => {
+            elem.classList.remove("border", "border-3", "border-danger");
+        });
     }
 
 }
@@ -331,6 +352,7 @@ function tempEvent() {
 
 }
 
+
 function returnStartColors() {
     let cellsArray = document.querySelectorAll(".cell");
     cellsArray.forEach(elem => {
@@ -338,4 +360,36 @@ function returnStartColors() {
         else if (elem.style.background === "rgb(20, 167, 225)") elem.style.background = "#f0d9b5";
     })
 }
+
+function createMessageDiv(m) {
+    $('#div1').html("");
+    $.each(m, function () {
+        $('#div1').append($('<div>').attr('name', 'messageDiv').addClass('row border border-2').addClass(this.author !== $('#enemyName').text() ? 'border-danger' : 'border-primary').append($('<div>').addClass('col-12').append($('<label>').text(this.text))));
+    });
+    $('div[name=messageDiv]').width($('#div1').width() + 9);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    addMessageSender();
+});
+
+function addMessageSender() {
+    $('#game2').append($('<div>').attr('id', 'div1').height($('#game2').height() - 50).width($('#game2').width() + 12).css('background', 'white'));
+    $('#game2').append($('<div>').attr('id', 'div2').addClass('col-12 input-group mb-3 mt-3')
+        .append($('<input>', {
+            type: 'text',
+            name: 'sendMessageInput'
+        }).prop({'placeholder': 'Введите сообщение'}).addClass('form-control'))
+        .append($('<button>').addClass('btn btn btn-danger').attr({'name': 'sendMessageButton'}).prop({'type': 'button'}).text('Отправить').click(function () {
+            sendMessage($('#div2').find('input').val());
+            $('#div2').find('input').val("");
+        })))
+    $('#div2').offset({top: $('#div1').offset().top + $('#div1').height() + 1});
+    $('#div2').height($('#div2').height() + 10);
+    $('#div2').width($('#div1').width());
+    $('#div2').find('input').width(140)
+}
+
+
+
 

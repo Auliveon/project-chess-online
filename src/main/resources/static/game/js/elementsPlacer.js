@@ -37,6 +37,8 @@ const gameSettings = {
 };
 let figuresOnField = [];
 
+
+
 function createBoard() {
     let gameBoard = document.createElement('div');
     gameBoard.style.position = "relative";
@@ -61,7 +63,6 @@ function createCells(gameBoard) {
         }
     }).then(resp => resp.json())
         .then(resp => {
-
             s = JSON.parse(JSON.stringify(resp)).message;
         })
         .then(() => {
@@ -73,8 +74,8 @@ function createCells(gameBoard) {
             let swapped = false;
             let x = 0;
             let y = 0;
-            let color1 = "#f0d9b5";
-            let color2 = "#b58863";
+            let color1 = s === 'white' ? '#f0d9b5' : '#b58863';
+            let color2 = s === 'white' ?'#b58863' : '#f0d9b5';
             for (let i = 0; i < 64; i++) {
 
                 if (i % 8 === 0 && i !== 0) {
@@ -83,12 +84,12 @@ function createCells(gameBoard) {
                     id = s === "white" ? 8 : 1;
                     chBrush++;
                     if (!swapped) {
-                        color1 = "#b58863";
-                        color2 = "#f0d9b5";
+                        color1 = s === 'white' ?'#b58863' : '#f0d9b5';
+                        color2 = s === 'white' ? '#f0d9b5' : '#b58863';
                         swapped = true;
                     } else {
-                        color1 = "#f0d9b5";
-                        color2 = "#b58863";
+                        color1 = s === 'white' ? '#f0d9b5' : '#b58863';
+                        color2 = s === 'white' ?'#b58863' : '#f0d9b5';
                         swapped = false;
                     }
                 }
@@ -116,8 +117,5 @@ function createCells(gameBoard) {
         function start() {
             let gameBoard = createBoard();
             createCells(gameBoard);
-
-
         }
-
     });

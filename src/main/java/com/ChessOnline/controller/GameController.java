@@ -11,7 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
+
 @RequestMapping("/chessOnline/")
 public class GameController {
+    Sender sender = new Sender();
 
+    @PostMapping("/ajax")
+    public void getText(HttpServletResponse response, HttpServletRequest request) throws IOException {
+        sender.handler(request, response);
+    }
 }

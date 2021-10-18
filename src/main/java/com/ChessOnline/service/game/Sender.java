@@ -19,6 +19,9 @@ public class Sender {
     }
 
     public void handler(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+
+
         String stringRequest = request.getReader().readLine();
 
         if(UniqueSessions.checkModPlayerInSessionList(new Player(request))) {
@@ -37,8 +40,5 @@ public class Sender {
         } else {
             response.getWriter().write("no");
         }
-
-
-
     }
 }

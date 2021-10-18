@@ -2,6 +2,7 @@ package com.ChessOnline.game;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
@@ -17,6 +18,7 @@ public class Session {
     private ArrayDeque<Answer> p1Requests = new ArrayDeque<>();
     private ArrayDeque<Answer> p2Requests = new ArrayDeque<>();
     private String lastStep;
+    private List<ChatMessage> chatMessage;
 
     public Session(Player p1, Player p2) {
         this.p1 = p1;
@@ -32,8 +34,10 @@ public class Session {
         this.p2Requests.add(new Answer(null, null, "gameReady", null, null, p1.getUserName()));
         this.p1Requests.add(new Answer(null, "You", "startGame", null, "white", p2.getUserName()));
         this.p2Requests.add(new Answer(null, "", "startGame", null, "black", p1.getUserName()));
+        this.chatMessage = new ArrayList<>();
 
     }
+
     public void requestHandler(String stringRequest, String name, HttpServletResponse response) throws IOException {
         //System.out.println(stringRequest);
 
@@ -41,26 +45,22 @@ public class Session {
         if (stringRequest.equals("\"status\"")) {
             if (p1.getUserName().equals(name)) {
                 ObjectMapper objectMapper = new ObjectMapper();
-                if(p1Requests.size() > 0) {
+                if (p1Requests.size() > 0) {
                     response.getWriter().write(objectMapper.writeValueAsString(p1Requests.poll()));
                 } else {
                     response.getWriter().write(objectMapper.writeValueAsString(new Answer(null, null,
                             null, null, null, p2.getUserName())));
 
                 }
-            }
-
-            else if (p2.getUserName().equals(name)) {
+            } else if (p2.getUserName().equals(name)) {
                 ObjectMapper objectMapper = new ObjectMapper();
-                if(p2Requests.size() > 0) {
+                if (p2Requests.size() > 0) {
                     response.getWriter().write(objectMapper.writeValueAsString(p2Requests.poll()));
                 } else {
                     response.getWriter().write(objectMapper.writeValueAsString(new Answer(null, null,
                             null, null, null, p1.getUserName())));
-
                 }
             }
-
         }
 
         if (stringRequest.equals("\"getGameField\"")) {
@@ -83,10 +83,10 @@ public class Session {
         if (stringRequest.startsWith("\"step")) {
             String step = convertRequest(stringRequest);
             String answer = gameEngine.makeTurn(stringRequest);
-            if(answer.equals("Yes")) {
+            if (answer.equals("Yes")) {
                 lastStep = step.split("-")[1] + "-" + step.split("-")[3];
                 if (name.equals(p1.getUserName())) {
-                    if(gameEngine.checkMat().equals("white")) {
+                    if (gameEngine.checkMat().equals("white")) {
                         p2Requests.add(new Answer(null, null, "Lose", null, null, null));
                         p1Requests.add(new Answer(null, null, "Win", null, null, null));
                     }
@@ -96,15 +96,14 @@ public class Session {
                 }
 
                 if (name.equals(p2.getUserName())) {
-                    if(gameEngine.checkMat().equals("black")) {
+                    if (gameEngine.checkMat().equals("black")) {
                         p1Requests.add(new Answer(null, null, "Lose", null, null, null));
                         p2Requests.add(new Answer(null, null, "Win", null, null, null));
                     }
                     p1Requests.add(new Answer(step.split("-")[1] + "-" + step.split("-")[3], "You", "updateField", null, null, null));
                     p2Requests.add(new Answer(null, "", "updateField", null, null, null));
                 }
-            }
-            else if(answer.equals("No")) {
+            } else if (answer.equals("No")) {
                 if (name.equals(p1.getUserName())) {
                     p2Requests.add(new Answer(null, "", "updateField", null, null, null));
                     p1Requests.add(new Answer(lastStep, "You", "updateField", null, null, null));
@@ -118,21 +117,26 @@ public class Session {
         }
 
         if (stringRequest.startsWith("\"getAvailableSteps")) {
-            //System.out.println(stringRequest);
             String figure = convertRequest(stringRequest).split("-")[1];
-            //System.out.println(figure);
             StringBuilder sb = new StringBuilder();
-            for(String s  : gameEngine.getAvailableSteps(figure)) {
-                sb.append(s + "-");
+            for (String s : gameEngine.getAvailableSteps(figure)) {
+                sb.append(s).append("-");
             }
             response.getWriter().write(sb.toString());
+        }
 
-            }
+        if(stringRequest.startsWith("\"getChatMessages")) {
+            response.getWriter().write(new ObjectMapper().writeValueAsString(this.chatMessage));
+        }
+        if(stringRequest.startsWith("addChatMessage")) {
+                    ChatMessage chatMessage = new ObjectMapper().readValue(stringRequest.split(Character.toString((char) 3798))[1], ChatMessage.class);
+            chatMessage.setAuthor(name);
+            this.chatMessage.add(chatMessage);
+        }
     }
 
     public String convertRequest(String req) {
-        String convertedStep = req.substring(1, req.length()-1);
-        return convertedStep;
+        return req.substring(1, req.length() - 1);
     }
 
     public Session() {
@@ -161,4 +165,7 @@ public class Session {
         }
         return null;
     }
+
+
 }
+
