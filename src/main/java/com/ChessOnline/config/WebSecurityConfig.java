@@ -45,7 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/register",
                     "/ajax/*",
                     "/test",
-                    "/h2/*"
+                    "/h2/*",
+                    "/register/completeRegister",
+                    "/register/sendActivationCode"
             };
 
     @Override

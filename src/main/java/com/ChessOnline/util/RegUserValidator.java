@@ -13,13 +13,10 @@ public class RegUserValidator {
     public static boolean checkUsername(String username) {
         if(username.length() > 20 | username.length() < 3) return  false;
 
-
         char[] charNameArray = username.toCharArray();
         for(char element:charNameArray) {
             if(!((int)element > 64 & (int)element < 91 | (int)element > 96 & (int)element < 123)) return false;
         }
-
-        List<User> usersList;
         return true;
     }
 

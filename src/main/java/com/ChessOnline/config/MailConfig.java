@@ -18,15 +18,17 @@ public class MailConfig {
 
     private int port;
 
-    private String username;
+    private String username = "test.webapp.noreply";
 
-    private String password;
+    private String password = "4CjtwJBb123";
 
     private String protocol;
 
     private String auth;
 
     private String enable;
+
+    private String trust;
 
     @Bean
     public JavaMailSender getMailSender() {
@@ -36,9 +38,10 @@ public class MailConfig {
         javaMailSender.setUsername(username);
         javaMailSender.setPassword(password);
         Properties properties = javaMailSender.getJavaMailProperties();
-        properties.setProperty("mail.transport.protocol", protocol);
+        properties.setProperty("mail.protocol", protocol);
         properties.setProperty("mail.smtp.auth", auth);
         properties.setProperty("mail.smtp.starttls.enable", enable);
+        properties.setProperty("mail.smtp.ssl.trust", trust);
         return javaMailSender;
     }
 
@@ -60,6 +63,14 @@ public class MailConfig {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getTrust() {
+        return trust;
+    }
+
+    public void setTrust(String trust) {
+        this.trust = trust;
     }
 
     public void setUsername(String username) {

@@ -12,7 +12,11 @@
     <div class="col-sm-8 col-md-6 col-lg-3 col-lx-2 pb-2 pt-3 p-3"
          style="border-radius: 5px; border: 1px solid gray; box-shadow: 5px 5px 5px darkgray; background: white">
 
+
         <form th:action="@{/register/}" method="post">
+            <div id="errorDiv" style="text-align: center" hidden="hidden" class="alert alert-danger alert-dismissible mb-2">
+                <strong>Error!</strong> Ошибка регистрации
+            </div>
             <div>
                 <div class="mb-3">
                     <label for="login" class="form-label">Login</label>
@@ -57,7 +61,7 @@
                 <a href="/" class="btn btn-outline-secondary">Вернуться назад</a>
             </div>
             <div class="col-6 text-end d-flex justify-content-end">
-                <button type="button" class="btn btn-secondary">Зарегестрироваться</button>
+                <button type="button" onclick="completeRegistration(event)" class="btn btn-secondary">Зарегестрироваться</button>
             </div>
 
         </div>

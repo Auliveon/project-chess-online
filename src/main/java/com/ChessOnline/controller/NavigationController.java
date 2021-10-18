@@ -50,6 +50,11 @@ public class NavigationController {
         return "registrationTemplates/login";
     }
 
+    @GetMapping()
+    public String home() {
+        return "game/index";
+    }
+
     @PostMapping("/register/sendActivationCode")
     public ResponseEntity<?> sendEmail(@RequestBody RegInfo regInfo) {
         String activationCode = ActivationCodeGenerator.generateActivationCode();
@@ -61,7 +66,8 @@ public class NavigationController {
 
     @PostMapping("/register/completeRegister")
     public ResponseEntity<?> completeRegister(@RequestBody RegInfo regInfo) {
-        if(userList.getUserByActivationCode(regInfo.getActivationCode()) != null) {
+        if(userList.getUserByActivationCode(regInfo.getActivationCode()) != null && !userService.getUserByLogin(regInfo.getLogin()).isPresent()
+                && RegUserValidator.check(regInfo.getLogin(), regInfo.getPassword(), regInfo.getPasswordRepeat(), regInfo.getEmail())) {
             userService.createNewUser(new User(regInfo.getLogin(), regInfo.getPassword(), regInfo.getEmail()));
             return ResponseEntity.ok().build();
         } else {

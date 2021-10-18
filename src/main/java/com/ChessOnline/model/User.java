@@ -19,12 +19,6 @@ public class User implements SqlNamespace {
     @Column(name = CLN_USER_PASSWORD, nullable = false)
     private String password;
 
-    @Column(name = CLN_USER_FIRST_NAME, nullable = false, length = 100)
-    private String firstName;
-
-    @Column(name = CLN_USER_LAST_NAME, nullable = false, length = 100)
-    private String lastName;
-
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(name = USER_ROLES_TABLE_NAME)
     private List<Role> roles = new ArrayList<>();
@@ -44,6 +38,7 @@ public class User implements SqlNamespace {
         this.password = password;
         this.email = email;
         this.roles.add(new Role("USER", "Пользователь"));
+        this.status = Status.ACTIVE;
     }
 
     public String getLogin() {
@@ -60,22 +55,6 @@ public class User implements SqlNamespace {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public List<Role> getRoles() {
