@@ -14,16 +14,4 @@ import java.io.IOException;
 @RequestMapping("/chessOnline/")
 public class GameController {
 
-    private Sender sender;
-
-    public GameController(Sender sender) {
-        this.sender = sender;
-    }
-
-    @PostMapping("/makeStep")
-    public ResponseEntity<?> getText(HttpServletResponse response, HttpServletRequest request) throws IOException {
-       return ResponseEntity.ok().build();
-        //sender.handler(sender);
-    }
-
 }

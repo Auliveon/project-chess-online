@@ -21,11 +21,11 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(PasswordEncoder passwordEncoder, SessionFactory sessionFactory) {
+    public UserService(@Qualifier("chessOnlinePasswordEncoder") PasswordEncoder passwordEncoder, SessionFactory sessionFactory) {
         this.passwordEncoder = passwordEncoder;
         this.sessionFactory = sessionFactory;
     }

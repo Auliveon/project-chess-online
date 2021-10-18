@@ -3,6 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block layout:insert="~{fragments/bootstrap.html}"/>
 <body class="h-100" style="background: lightgray">
+<header>
+    <script type="text/javascript" th:src="@{/js/registration.js}"></script>
+</header>
+
+
 <div class="d-flex justify-content-center h-100  align-items-center">
     <div class="col-sm-8 col-md-6 col-lg-3 col-lx-2 pb-2 pt-3 p-3"
          style="border-radius: 5px; border: 1px solid gray; box-shadow: 5px 5px 5px darkgray; background: white">
@@ -36,9 +41,13 @@
                         <input type="email" id="email" class="form-control" placeholder="Your email"
                                aria-label="Имя получателя" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button">Выслать письмо</button>
+                            <button class="btn btn-secondary" id="reg_email_send" onclick="sendActivationCode()" type="button">Выслать код</button>
                         </div>
                     </div>
+                </div>
+                <div class="mb-3">
+                    <label for="activationCode" class="form-label">Код активации:</label>
+                    <input type="text" class="form-control" id="activationCode" placeholder="Код активации">
                 </div>
             </div>
         </form>

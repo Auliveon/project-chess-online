@@ -33,6 +33,19 @@ public class User implements SqlNamespace {
     @Column(name = CLN_USER_STATUS, nullable = false, columnDefinition = "varchar(20) default 'ACTIVE'")
     private Status status;
 
+    @Column(name = "email")
+    private String email;
+
+    public User() {
+    }
+
+    public User(String login, String password, String email) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.roles.add(new Role("USER", "Пользователь"));
+    }
+
     public String getLogin() {
         return login;
     }
@@ -79,6 +92,14 @@ public class User implements SqlNamespace {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Transient
