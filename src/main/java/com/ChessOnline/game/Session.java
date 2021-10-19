@@ -1,6 +1,9 @@
 package com.ChessOnline.game;
 
+import com.ChessOnline.service.db.IUserService;
+import com.ChessOnline.util.UniqueSessions;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +11,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class Session {
+
+    private IUserService userService;
     private String sessionName;
     private List<String> sessionPlayersNames = new ArrayList<>();
     private List<Player> sessionPlayers = new ArrayList<>();
@@ -89,6 +94,8 @@ public class Session {
                     if (gameEngine.checkMat().equals("white")) {
                         p2Requests.add(new Answer(null, null, "Lose", null, null, null));
                         p1Requests.add(new Answer(null, null, "Win", null, null, null));
+                        userService.updateUserWins(p1.getUserName());
+                        UniqueSessions.removeSession(this.sessionName);
                     }
                     p2Requests.add(new Answer(step.split("-")[1] + "-" + step.split("-")[3], "You", "updateField", null, null, p1.getUserName()));
                     p1Requests.add(new Answer(null, "", "updateField", null, null, p2.getUserName()));
@@ -99,6 +106,8 @@ public class Session {
                     if (gameEngine.checkMat().equals("black")) {
                         p1Requests.add(new Answer(null, null, "Lose", null, null, null));
                         p2Requests.add(new Answer(null, null, "Win", null, null, null));
+                        userService.updateUserWins(p2.getUserName());
+                        UniqueSessions.removeSession(this.sessionName);
                     }
                     p1Requests.add(new Answer(step.split("-")[1] + "-" + step.split("-")[3], "You", "updateField", null, null, null));
                     p2Requests.add(new Answer(null, "", "updateField", null, null, null));

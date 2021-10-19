@@ -27,7 +27,20 @@ function findGame() {
     });
 }
 
-function checkStatus() {
+function removeFromQueue() {
+    fetch("/ajax", {
+        method: "POST",
+        body: 'removeMeFromQueue',
+        headers: {
+            'Content-type': 'application/json'
+        }
+    });
+    window.location.href = '/findgame';
+
+
+}
+
+function checkStatus(stop) {
     let a = setInterval(() => {
         fetch("/ajax", {
             method: "POST",

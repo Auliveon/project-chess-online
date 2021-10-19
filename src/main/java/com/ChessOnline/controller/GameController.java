@@ -12,7 +12,6 @@ import java.io.IOException;
 
 @RestController
 
-@RequestMapping("/chessOnline/")
 public class GameController {
     Sender sender = new Sender();
 

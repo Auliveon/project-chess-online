@@ -30,6 +30,9 @@ public class User implements SqlNamespace {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "wins")
+    private int wins;
+
     public User() {
     }
 
@@ -79,6 +82,14 @@ public class User implements SqlNamespace {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
     }
 
     @Transient

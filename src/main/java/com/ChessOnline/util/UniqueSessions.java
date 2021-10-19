@@ -2,11 +2,13 @@ package com.ChessOnline.util;
 
 import com.ChessOnline.game.Player;
 import com.ChessOnline.game.Session;
+import com.ChessOnline.service.db.IUserService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UniqueSessions {
+
     public static List<Session> sessionList = new ArrayList<>();
     public static boolean uniqueAdd(Player player1, Player player2) {
         if(sessionList.stream().noneMatch(elem -> elem.getSessionPlayersNames().contains(player1.getUserName()))
@@ -31,6 +33,9 @@ public class UniqueSessions {
             if(session.getSessionPlayersNames().contains(player.getUserName())) return true;
         }
         return false;
+    }
+    public static void removeSession(String sessionName) {
+        sessionList.removeIf(session -> session.getSessionName().equals(sessionName));
     }
 
 }

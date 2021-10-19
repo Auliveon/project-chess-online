@@ -40,7 +40,7 @@ public class RegUserValidator {
     }
 
     public static boolean checkEmail(String email) {
-        return false;
+        return true;
 
     }
 }

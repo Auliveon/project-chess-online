@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface IUserService {
 
+    void updateUserWins(String login);
+
     List<User> getAllUsers();
 
     List<Role> getAllRoles();

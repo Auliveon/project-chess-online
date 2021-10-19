@@ -14,7 +14,15 @@ function sendActivationCode() {
         url: '/register/sendActivationCode',
         contentType: 'application/json',
         data: JSON.stringify(regInfo),
-        async: false
+        async: false,
+        success: function () {
+            $('#completeReg').prop({'disabled': ''});
+            $('#activationCode').prop({'disabled': ''});
+        },
+        error: function () {
+            event.preventDefault();
+            $('#errorDiv').removeAttr('hidden');
+        }
     });
     return ajax['responseJSON'];
 
@@ -35,8 +43,21 @@ function completeRegistration(event) {
         async: false,
         success: function () {
             event.preventDefault();
-            window.location.href = "/"
-        },
+            let formData = new FormData();
+            formData.append('username', $('#login').val());
+            formData.append('password', $('#password').val());
+            let completeReg = $.ajax({
+                    type: 'POST',
+                    url: '/login',
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    async: false,
+            success: function () {
+                        alert(23);
+                window.location.href = "/";
+            }});
+            },
         error: function () {
             event.preventDefault();
             $('#errorDiv').removeAttr('hidden');

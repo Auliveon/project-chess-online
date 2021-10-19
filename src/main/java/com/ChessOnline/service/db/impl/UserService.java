@@ -67,6 +67,16 @@ public class UserService implements IUserService {
         cq.select(userRoot).where(criteriaBuilder.equal(userRoot.get(User.CLN_USER_LOGIN), login));
         return sessionFactory.getCurrentSession().createQuery(cq).uniqueResultOptional();
     }
+    @Override
+    public void updateUserWins(String login) {
+        Optional<User> user = getUserByLogin(login);
+        if (user.isPresent()) {
+            user.get().setWins(user.get().getWins() + 1);
+            sessionFactory.getCurrentSession().update(user.get());
+
+        }
+    }
+
 
     @Override
     @Transactional

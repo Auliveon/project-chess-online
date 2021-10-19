@@ -32,7 +32,9 @@ public class UniqueUserQueue {
                 null, null, null)));
 
     }
-
+    public static void removeFromQueue(String username) throws IOException {
+        userQueue.removeIf(player -> player.getUserName().equals(username));
+    }
 }
 
 

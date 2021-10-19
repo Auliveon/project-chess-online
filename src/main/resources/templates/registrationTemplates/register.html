@@ -15,24 +15,24 @@
 
         <form th:action="@{/register/}" method="post">
             <div id="errorDiv" style="text-align: center;" hidden="hidden" class="justify-content-center alert alert-danger alert-dismissible mb-2">
-                <label><strong>Ошибка!</strong>Ошибка регистрации</label>
+                <label>Ошибка регистрации</label>
             </div>
             <div>
                 <div class="mb-3">
                     <label for="login" class="form-label">Login</label>
                     <input type="text" class="form-control" id="login" placeholder="Your Login">
                     <div id="passwordHelpBlock" class="form-text">
-                        Your login must be 3-20 characters long, not contain numbers, and must not contain spaces,
-                        special characters, or emoji.
+                        Ваш логин должен состоять из 3-20 символов, не содержать цифр и пробелов,
+                        специальные символы или смайлики.
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" placeholder="Your Password">
                     <div id="passwordHelpBlock2" class="form-text">
-                        Your password must be 8-20 characters long, contain letters and numbers, and must not contain
-                        spaces,
-                        special characters, or emoji.
+                        Ваш пароль должен состоять из 8-20 символов, содержать буквы и цифры и не должен содержать
+                        пространства,
+                        специальные символы или смайлики.
                     </div>
                 </div>
                 <div class="mb-3">
@@ -51,7 +51,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="activationCode" class="form-label">Код активации:</label>
-                    <input type="text" class="form-control" id="activationCode" placeholder="Код активации">
+                    <input type="text" disabled="disabled" class="form-control" id="activationCode" placeholder="Код активации">
                 </div>
             </div>
         </form>
@@ -61,7 +61,7 @@
                 <a href="/" class="btn btn-outline-secondary">Вернуться назад</a>
             </div>
             <div class="col-6 text-end d-flex justify-content-end">
-                <button type="button" onclick="completeRegistration(event)" class="btn btn-secondary">Зарегестрироваться</button>
+                <button type="button" onclick="completeRegistration(event)" id="completeReg" class="btn btn-secondary">Зарегестрироваться</button>
             </div>
 
         </div>

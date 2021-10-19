@@ -61,9 +61,12 @@ let a = setInterval(() => {
 
             if (answer.message === "Lose") {
                 alert("You lose");
+                window.location.href = '/';
             }
             if (answer.message === "Win") {
                 alert("You win");
+                window.location.href = '/';
+
             }
 
         });
@@ -364,7 +367,7 @@ function returnStartColors() {
 function createMessageDiv(m) {
     $('#div1').html("");
     $.each(m, function () {
-        $('#div1').append($('<div>').attr('name', 'messageDiv').addClass('row border border-2').addClass(this.author !== $('#enemyName').text() ? 'border-danger' : 'border-primary').append($('<div>').addClass('col-12').append($('<label>').text(this.text))));
+        $('#div1').append($('<div>').attr('name', 'messageDiv').addClass('row border border-2 rounded-2').addClass(this.author !== $('#enemyName').text() ? 'border-danger' : 'border-primary').css('margin-bottom', '1px').append($('<div>').addClass('col-12').append($('<label>').css({'margin': '15px'}).text(this.text))));
     });
     $('div[name=messageDiv]').width($('#div1').width() + 9);
 }
@@ -374,7 +377,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function addMessageSender() {
-    $('#game2').append($('<div>').attr('id', 'div1').height($('#game2').height() - 50).width($('#game2').width() + 12).css('background', 'white'));
+    $(window).resize(function() {
+        $('#game2').offset({top: $('#game').offset().top, left: $('#game').offset().left + ($('#game').width())});
+        $('#game2').css({'position': ''});
+    })
+    $('#game2').append($('<div>').attr('id', 'div1').height($('#game2').height() - 50).width($('#game2').width() + 12).css('background', 'white').css('overflow-x', 'hidden'));
     $('#game2').append($('<div>').attr('id', 'div2').addClass('col-12 input-group mb-3 mt-3')
         .append($('<input>', {
             type: 'text',
