@@ -2,6 +2,7 @@ package com.ChessOnline.util;
 
 import com.ChessOnline.game.Answer;
 import com.ChessOnline.game.Player;
+import com.ChessOnline.service.db.IUserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,10 +12,10 @@ import java.util.ArrayDeque;
 public class UniqueUserQueue {
     public static ArrayDeque<Player> userQueue = new ArrayDeque<>();
 
-    public static boolean uniqueAdd(Player player) {
+    public static boolean uniqueAdd(Player player, IUserService userService) {
         if(userQueue.stream().filter(elem -> elem.getUserName().equals(player.getUserName())).count() == 0){
             userQueue.add(player);
-            if(userQueue.size() % 2 == 0) UniqueSessions.uniqueAdd(userQueue.poll(), userQueue.poll());
+            if(userQueue.size() % 2 == 0) UniqueSessions.uniqueAdd(userQueue.poll(), userQueue.poll(), userService);
             return true;
         } else {
             return false;

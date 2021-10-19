@@ -10,10 +10,10 @@ import java.util.List;
 public class UniqueSessions {
 
     public static List<Session> sessionList = new ArrayList<>();
-    public static boolean uniqueAdd(Player player1, Player player2) {
+    public static boolean uniqueAdd(Player player1, Player player2, IUserService userService) {
         if(sessionList.stream().noneMatch(elem -> elem.getSessionPlayersNames().contains(player1.getUserName()))
             && sessionList.stream().noneMatch(elem -> elem.getSessionPlayersNames().contains(player2.getUserName()))) {
-            sessionList.add(new Session(player1, player2));
+            sessionList.add(new Session(player1, player2, userService));
             return true;
         } else {
             return false;

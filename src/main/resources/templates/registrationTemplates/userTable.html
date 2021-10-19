@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<table class="table table-responsive table-hover">
+  <thead class="table-secondary">
+  <tr align="center">
+    <th scope="col">Логин</th>
+    <th scope="col">Роль</th>
+    <th scope="col">Статус</th>
+    <th scope="col">Количество побед</th>
+    <th sec:authorize="hasAuthority('ADMIN')" scope="col">Действия</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr align="center" th:each="user : ${users}" th:object="${user}">
+    <td th:text="*{login}"></td>
+    <td th:text="*{rolesStr}"></td>
+    <td th:text="*{status}"></td>
+    <td th:text="*{wins}"></td>
+    <td sec:authorize="hasAuthority('ADMIN')">
+      <a id="blockButton" onclick="blockUser(event)" th:href="@{users/block(login=*{login})}" class="btn btn-secondary editBtn">
+        Заблокировать
+      </a>
+      <a id="unBlockButton" onclick="unBlockUser(event)" th:href="@{users/unBlock(login=*{login})}" class="btn btn-success">
+        Разблокировать
+      </a>
+      <a id="deleteButton" onclick="removeUser(event)" th:href="@{users/delete(login=*{login})}" class="btn btn-danger deleteBtn">
+        Удалить
+      </a>
+    </td>
+  </tr>
+
+  </tbody>
+</table>
+</html>

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailService;
@@ -47,7 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/test",
                     "/h2/*",
                     "/register/completeRegister",
-                    "/register/sendActivationCode"
+                    "/register/sendActivationCode",
+                    "/users"
             };
 
     @Override
@@ -63,9 +66,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
+                .successHandler(myAuthenticationSuccessHandler())
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .and()
+                .rememberMe()
+                .userDetailsService(this.userDetailService)
+                .tokenValiditySeconds(86400);;
     }
 
     @Override

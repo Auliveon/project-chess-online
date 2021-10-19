@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html class="" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+<th:block layout:insert="~{fragments/bootstrap.html}"/>
+<body>
+<header>
+    <div th:replace="fragments/nav-bar :: nav_bar"></div>
+</header>
+
+<div id="tableDiv" class="justify-content-center user_list mt-1 me-2 ms-2" th:fragment="user_list">
+    <div th:replace="registrationTemplates/userTable"></div>
+</div>
+</body>
+</html>

@@ -40,7 +40,7 @@ let a = setInterval(() => {
         }
     }).then(resp => resp.json())
         .then(resp => {
-            answer = JSON.parse(JSON.stringify(resp));
+            answer = resp;
         })
         .then(() => {
 
@@ -62,10 +62,14 @@ let a = setInterval(() => {
             if (answer.message === "Lose") {
                 alert("You lose");
                 window.location.href = '/';
+                clearInterval(a);
+                clearInterval(b);
             }
             if (answer.message === "Win") {
                 alert("You win");
                 window.location.href = '/';
+                clearInterval(a);
+                clearInterval(b);
 
             }
 

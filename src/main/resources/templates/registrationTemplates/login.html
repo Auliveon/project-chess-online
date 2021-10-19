@@ -7,6 +7,7 @@
         event.preventDefault();
         window.location.href = "/register"
     }
+
 </script>
 
 <body class="h-100" style="background: lightgray">
@@ -16,7 +17,7 @@
 
         <form th:action="@{/login}" method="post">
             <div th:if="${param.error}" class="alert alert-danger alert-dismissible  m-2 text-center">
-                <strong>Error!</strong> </a>.
+                <strong>Error!</strong> <label>Ошибка авторизации</label>
             </div>
             <div class="col-12 p-2 pb-1 mt-2">
                 <input name="username" type="text" class="form-control" placeholder="Username">

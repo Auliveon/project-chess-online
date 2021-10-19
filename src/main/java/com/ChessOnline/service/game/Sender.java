@@ -1,6 +1,7 @@
 package com.ChessOnline.service.game;
 
 import com.ChessOnline.game.Player;
+import com.ChessOnline.service.db.IUserService;
 import com.ChessOnline.util.UniqueSessions;
 import com.ChessOnline.util.UniqueUserQueue;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class Sender {
 
     }
 
-    public void handler(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void handler(HttpServletRequest request, HttpServletResponse response, IUserService userService) throws IOException, InterruptedException {
 
 
         String stringRequest = request.getReader().readLine();
@@ -28,7 +29,7 @@ public class Sender {
             Objects.requireNonNull(UniqueSessions.getSessionByModPlayer
                     (new Player(request))).requestHandler(stringRequest, request.getRemoteUser(), response);
         } else if (stringRequest.equals("\"addMeOnQueue\"")) {
-            UniqueUserQueue.uniqueAdd(new Player(request));
+            UniqueUserQueue.uniqueAdd(new Player(request), userService);
             response.getWriter().write("added");
         } else if (stringRequest.equals("removeMeFromQueue")) {
             UniqueUserQueue.removeFromQueue(request.getRemoteUser());

@@ -82,6 +82,36 @@ public class NavigationController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/users")
+    public String users(Model model) {
+        model.addAttribute("users", userService.getAllUsers());
+        return "registrationTemplates/users";
+    }
+
+    @GetMapping("/users/block")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String blockUser(@RequestParam("login") String login, Model model) {
+        userService.blockUser(login);
+        model.addAttribute("users", userService.getAllUsers());
+        return "registrationTemplates/users :: user_list";
+    }
+
+    @GetMapping("/users/unBlock")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String unBlockUser(@RequestParam("login") String login, Model model) {
+        userService.unBlockUser(login);
+        model.addAttribute("users", userService.getAllUsers());
+        return "registrationTemplates/users :: user_list";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/users/delete")
+    public String removeUser(@RequestParam("login") String login, Model model) {
+        userService.deleteUserByLogin(login);
+        model.addAttribute("users", userService.getAllUsers());
+        return "registrationTemplates/users :: user_list";
+    }
+
     @PostMapping("/register/completeRegister")
     public ResponseEntity<?> completeRegister(@RequestBody RegInfo regInfo) {
         if(userList.getUserByActivationCode(regInfo.getActivationCode()) != null && !userService.getUserByLogin(regInfo.getLogin()).isPresent()

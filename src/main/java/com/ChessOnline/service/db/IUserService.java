@@ -10,6 +10,10 @@ public interface IUserService {
 
     void updateUserWins(String login);
 
+    void blockUser(String login);
+
+    void unBlockUser(String login);
+
     List<User> getAllUsers();
 
     List<Role> getAllRoles();

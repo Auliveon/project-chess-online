@@ -1,6 +1,7 @@
 package com.ChessOnline.game;
 
 import com.ChessOnline.service.db.IUserService;
+import com.ChessOnline.service.db.impl.UserService;
 import com.ChessOnline.util.UniqueSessions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class Session {
     private String lastStep;
     private List<ChatMessage> chatMessage;
 
-    public Session(Player p1, Player p2) {
+    public Session(Player p1, Player p2, IUserService userService) {
         this.p1 = p1;
         this.p2 = p2;
         this.p1.setSide("white");
@@ -40,10 +41,11 @@ public class Session {
         this.p1Requests.add(new Answer(null, "You", "startGame", null, "white", p2.getUserName()));
         this.p2Requests.add(new Answer(null, "", "startGame", null, "black", p1.getUserName()));
         this.chatMessage = new ArrayList<>();
+        this.userService = userService;
 
     }
 
-    public void requestHandler(String stringRequest, String name, HttpServletResponse response) throws IOException {
+    public void requestHandler(String stringRequest, String name, HttpServletResponse response) throws IOException, InterruptedException {
         //System.out.println(stringRequest);
 
 
@@ -95,6 +97,7 @@ public class Session {
                         p2Requests.add(new Answer(null, null, "Lose", null, null, null));
                         p1Requests.add(new Answer(null, null, "Win", null, null, null));
                         userService.updateUserWins(p1.getUserName());
+                        Thread.sleep(1000);
                         UniqueSessions.removeSession(this.sessionName);
                     }
                     p2Requests.add(new Answer(step.split("-")[1] + "-" + step.split("-")[3], "You", "updateField", null, null, p1.getUserName()));
@@ -107,6 +110,7 @@ public class Session {
                         p1Requests.add(new Answer(null, null, "Lose", null, null, null));
                         p2Requests.add(new Answer(null, null, "Win", null, null, null));
                         userService.updateUserWins(p2.getUserName());
+                        Thread.sleep(1000);
                         UniqueSessions.removeSession(this.sessionName);
                     }
                     p1Requests.add(new Answer(step.split("-")[1] + "-" + step.split("-")[3], "You", "updateField", null, null, null));
@@ -134,11 +138,11 @@ public class Session {
             response.getWriter().write(sb.toString());
         }
 
-        if(stringRequest.startsWith("\"getChatMessages")) {
+        if (stringRequest.startsWith("\"getChatMessages")) {
             response.getWriter().write(new ObjectMapper().writeValueAsString(this.chatMessage));
         }
-        if(stringRequest.startsWith("addChatMessage")) {
-                    ChatMessage chatMessage = new ObjectMapper().readValue(stringRequest.split(Character.toString((char) 3798))[1], ChatMessage.class);
+        if (stringRequest.startsWith("addChatMessage")) {
+            ChatMessage chatMessage = new ObjectMapper().readValue(stringRequest.split(Character.toString((char) 3798))[1], ChatMessage.class);
             chatMessage.setAuthor(name);
             this.chatMessage.add(chatMessage);
         }

@@ -25,7 +25,7 @@ public class Role implements SqlNamespace {
     }
 
     public Role(final String name, final String description) {
-        pid = name;
+        this.pid = name;
         this.description = description;
     }
 

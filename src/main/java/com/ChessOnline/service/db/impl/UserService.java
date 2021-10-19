@@ -1,6 +1,7 @@
 package com.ChessOnline.service.db.impl;
 
 import com.ChessOnline.model.Role;
+import com.ChessOnline.model.Status;
 import com.ChessOnline.model.User;
 
 import com.ChessOnline.service.db.IUserService;
@@ -68,12 +69,33 @@ public class UserService implements IUserService {
         return sessionFactory.getCurrentSession().createQuery(cq).uniqueResultOptional();
     }
     @Override
+    @Transactional
     public void updateUserWins(String login) {
         Optional<User> user = getUserByLogin(login);
         if (user.isPresent()) {
             user.get().setWins(user.get().getWins() + 1);
             sessionFactory.getCurrentSession().update(user.get());
 
+        }
+    }
+
+    @Override
+    @Transactional
+    public void blockUser(String login) {
+        Optional<User> user = getUserByLogin(login);
+        if(user.isPresent()) {
+            user.get().setStatus(Status.BANE);
+            sessionFactory.getCurrentSession().update(user.get());
+        }
+    }
+
+    @Override
+    @Transactional
+    public void unBlockUser(String login) {
+        Optional<User> user = getUserByLogin(login);
+        if(user.isPresent()) {
+            user.get().setStatus(Status.ACTIVE);
+            sessionFactory.getCurrentSession().update(user.get());
         }
     }
 
